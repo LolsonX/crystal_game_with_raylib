@@ -4,4 +4,3 @@
 /.shards/
 *.dwarf
 /clibs/
-/src/libraylib.a
