@@ -1,0 +1,13 @@
+name: crystal_game
+version: 0.1.0
+
+authors:
+  - Karol Ostrowski <xlolsonx@gmail.com>
+
+targets:
+  crystal_game:
+    main: src/crystal_game.cr
+
+crystal: '>= 1.18.2'
+
+license: MIT
