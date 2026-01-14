@@ -5,24 +5,29 @@ A Crystal game project using raylib for graphics.
 ## Installation
 
 ```bash
-shards install
+# Clone with submodules
+git clone --recurse-submodules <repo-url>
+cd crystal_game_vibe
+
+# Install dependencies and build raylib
+make deps
 ```
 
 ## Building
 
-This project uses a Makefile for building. Raylib is bundled and compiled automatically.
+This project uses a Makefile for building. Raylib is included as a git submodule.
 
 ### Commands
 
 | Command | Description |
 |---------|-------------|
-| `make` | Build raylib and the project |
+| `make deps` | Install Crystal deps + build raylib from source |
+| `make` | Build the project |
 | `make run` | Build and run the game |
 | `make clean` | Remove build artifacts |
 | `make rebuild` | Clean and rebuild |
-| `make deps` | Install Crystal dependencies |
+| `make setup-raylib | Re-clone and rebuild raylib from source |
 | `make help` | Show available targets |
-| `make setup-raylib` | Download and rebuild raylib from source |
 
 ### Custom Flags
 
@@ -34,6 +39,15 @@ make CRYSTAL_FLAGS='--release' run
 
 # Custom CFLAGS for raylib
 make CFLAGS='-O3 -march=native' build
+```
+
+## Raylib Version
+
+Raylib is pinned to version **5.5** via git submodule.
+
+To update:
+```bash
+make setup-raylib  # Re-clones and rebuilds raylib 5.5
 ```
 
 ## Development
