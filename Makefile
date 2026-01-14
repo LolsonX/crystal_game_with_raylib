@@ -4,7 +4,7 @@ RAYLIB_A := $(RAYLIB_SRC)/libraylib.a
 CRYSTAL_FLAGS ?=
 CFLAGS ?= -O2 -Wall
 
-.PHONY: all build run clean deps rebuild help setup-raylib
+.PHONY: all build run clean clean-all deps rebuild help setup-raylib
 
 all: build
 
@@ -12,7 +12,8 @@ help:
 	@echo "Targets:"
 	@echo "  make          - Build raylib and project"
 	@echo "  make run      - Build and run the game"
-	@echo "  make clean    - Remove build artifacts"
+	@echo "  make clean    - Remove build artifacts (keeps deps)"
+	@echo "  make clean-all - Remove all artifacts including deps"
 	@echo "  make rebuild  - Clean and rebuild"
 	@echo "  make deps     - Install Crystal dependencies + build raylib"
 	@echo "  make setup-raylib - Re-clone and rebuild raylib from source"
@@ -50,7 +51,9 @@ run: build
 clean:
 	rm -f src/libraylib.a $(RAYLIB_A)
 	find $(RAYLIB_SRC) -name "*.o" -delete 2>/dev/null || true
-	rm -rf bin/
-	rm -rf .crystal/
+	rm -rf bin/ .crystal/
+
+clean-all: clean
+	rm -rf lib/
 
 rebuild: clean build
