@@ -22,6 +22,7 @@ This project uses a Makefile for building. Raylib is bundled and compiled automa
 | `make rebuild` | Clean and rebuild |
 | `make deps` | Install Crystal dependencies |
 | `make help` | Show available targets |
+| `make setup-raylib` | Download and rebuild raylib from source |
 
 ### Custom Flags
 
