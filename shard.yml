@@ -6,7 +6,7 @@ authors:
 
 targets:
   crystal_game:
-    main: src/crystal_game.cr
+    main: src/game_main.cr
 
 crystal: '>= 1.18.2'
 
