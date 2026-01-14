@@ -1,4 +1,4 @@
-require "./raylib"
+require "./raylib/raylib"
 require "./game/window"
 require "./game/entities/player"
 
