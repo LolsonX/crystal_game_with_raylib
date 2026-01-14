@@ -50,6 +50,7 @@ run: build
 clean:
 	rm -f src/libraylib.a $(RAYLIB_A)
 	find $(RAYLIB_SRC) -name "*.o" -delete 2>/dev/null || true
-	shards clean
+	rm -rf bin/
+	rm -rf .crystal/
 
 rebuild: clean build
