@@ -1,7 +1,7 @@
 RAYLIB_SRC := clibs/raylib/src
 PROJECT_LIB := src/libraylib.a
 
-CRYSTAL_FLAGS ?= --release
+CRYSTAL_FLAGS ?=
 CFLAGS ?= -O2 -Wall
 
 .PHONY: all build run clean deps rebuild help
@@ -17,7 +17,7 @@ help:
 	@echo "  make deps     - Install Crystal dependencies"
 	@echo ""
 	@echo "Custom flags:"
-	@echo "  make CRYSTAL_FLAGS='--release --debug' build"
+	@echo "  make CRYSTAL_FLAGS='--release' build  # Release build"
 	@echo "  make CFLAGS='-O3 -march=native' build"
 
 deps:

@@ -25,11 +25,13 @@ This project uses a Makefile for building. Raylib is bundled and compiled automa
 
 ### Custom Flags
 
-```bash
-# Debug build
-make CRYSTAL_FLAGS='--debug' run
+Debug mode is default. Use `--release` for optimized builds.
 
-# Optimized build
+```bash
+# Release build (optimized)
+make CRYSTAL_FLAGS='--release' run
+
+# Custom CFLAGS for raylib
 make CFLAGS='-O3 -march=native' build
 ```
 
