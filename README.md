@@ -1,22 +1,48 @@
 # crystal_game
 
-TODO: Write a description here
+A Crystal game project using raylib for graphics.
 
 ## Installation
 
-TODO: Write installation instructions here
+```bash
+shards install
+```
 
-## Usage
+## Building
 
-TODO: Write usage instructions here
+This project uses a Makefile for building. Raylib is bundled and compiled automatically.
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `make` | Build raylib and the project |
+| `make run` | Build and run the game |
+| `make clean` | Remove build artifacts |
+| `make rebuild` | Clean and rebuild |
+| `make deps` | Install Crystal dependencies |
+| `make help` | Show available targets |
+
+### Custom Flags
+
+```bash
+# Debug build
+make CRYSTAL_FLAGS='--debug' run
+
+# Optimized build
+make CFLAGS='-O3 -march=native' build
+```
 
 ## Development
 
-TODO: Write development instructions here
+1. Create a feature branch: `git checkout -b feature/<name>`
+2. Make changes following [CONVENTIONS.md](CONVENTIONS.md)
+3. Commit: `git commit -m "Add feature description"`
+4. Push: `git push origin feature/<name>`
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/crystal_game/fork>)
+1. Fork it (https://github.com/your-github-user/crystal_game/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
