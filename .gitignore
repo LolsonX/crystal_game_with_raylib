@@ -3,4 +3,6 @@
 /bin/
 /.shards/
 *.dwarf
-/clibs/
+/clibs/raylib/src/*.o
+/clibs/raylib/src/libraylib.a
+/src/libraylib.a

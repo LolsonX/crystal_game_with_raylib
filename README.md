@@ -1,22 +1,65 @@
 # crystal_game
 
-TODO: Write a description here
+A Crystal game project using raylib for graphics.
 
 ## Installation
 
-TODO: Write installation instructions here
+```bash
+# Clone with submodules
+git clone --recurse-submodules <repo-url>
+cd crystal_game_vibe
 
-## Usage
+# Install dependencies and build raylib
+make deps
+```
 
-TODO: Write usage instructions here
+## Building
+
+This project uses a Makefile for building. Raylib is included as a git submodule.
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `make deps` | Install Crystal deps + build raylib from source |
+| `make` | Build the project |
+| `make run` | Build and run the game |
+| `make clean` | Remove build artifacts |
+| `make rebuild` | Clean and rebuild |
+| `make setup-raylib | Re-clone and rebuild raylib from source |
+| `make help` | Show available targets |
+
+### Custom Flags
+
+Debug mode is default. Use `--release` for optimized builds.
+
+```bash
+# Release build (optimized)
+make CRYSTAL_FLAGS='--release' run
+
+# Custom CFLAGS for raylib
+make CFLAGS='-O3 -march=native' build
+```
+
+## Raylib Version
+
+Raylib is pinned to version **5.5** via git submodule.
+
+To update:
+```bash
+make setup-raylib  # Re-clones and rebuilds raylib 5.5
+```
 
 ## Development
 
-TODO: Write development instructions here
+1. Create a feature branch: `git checkout -b feature/<name>`
+2. Make changes following [CONVENTIONS.md](CONVENTIONS.md)
+3. Commit: `git commit -m "Add feature description"`
+4. Push: `git push origin feature/<name>`
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/crystal_game/fork>)
+1. Fork it (https://github.com/your-github-user/crystal_game/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
