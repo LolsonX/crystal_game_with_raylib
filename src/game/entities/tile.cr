@@ -1,4 +1,6 @@
 class Tile
+  include Drawable
+
   property x : Int32
   property y : Int32
   property color : CrystalRaylib::Types::Color

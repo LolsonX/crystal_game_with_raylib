@@ -14,8 +14,11 @@ module CrystalRaylib
 
     def self.with_mode_2d(camera : Types::Camera2D, &)
       LibRaylib.begin_mode_2d(camera.to_lib)
-      yield
-      LibRaylib.end_mode_2d
+      begin
+        yield
+      ensure
+        LibRaylib.end_mode_2d
+      end
     end
 
     def self.world_to_screen_2d(vector : Types::Vector2, camera : Types::Camera2D) : Types::Vector2

@@ -14,8 +14,11 @@ module CrystalRaylib
 
     def self.with_window(width : Int32, height : Int32, title : Pointer(UInt8), &)
       init_window(width, height, title)
-      yield
-      close_window()
+      begin
+        yield
+      ensure
+        close_window()
+      end
     end
   end
 end

@@ -1,16 +1,29 @@
 module CrystalRaylib
   module Types
     struct Color
+      getter red : UInt8
+      getter green : UInt8
+      getter blue : UInt8
+      getter alpha : UInt8
+
       def initialize(@red : UInt8, @green : UInt8, @blue : UInt8, @alpha : UInt8 = 255)
       end
     end
 
     struct Vector2
+      getter x : Float32
+      getter y : Float32
+
       def initialize(@x : Float32, @y : Float32)
       end
     end
 
     struct Camera2D
+      getter offset : Vector2
+      getter target : Vector2
+      getter rotation : Float32
+      getter zoom : Float32
+
       def initialize(@offset : Vector2, @target : Vector2, @rotation : Float32 = 0.0_f32, @zoom : Float32 = 1.0_f32)
       end
     end

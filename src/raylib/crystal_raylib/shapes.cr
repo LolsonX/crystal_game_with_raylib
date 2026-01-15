@@ -12,9 +12,9 @@ module CrystalRaylib
       LibRaylib.draw_triangle(vertex_1.to_lib, vertex_2.to_lib, vertex_3.to_lib, color.to_lib)
     end
 
-    def self.draw_triangle_fan(points : Array(Types::Vector2), point_count : Int32, color : Types::Color)
-      points_ptr = points.map(&.to_lib).to_unsafe
-      LibRaylib.draw_triangle_fan(points_ptr, point_count, color.to_lib)
+    def self.draw_triangle_fan(points : Array(Types::Vector2), color : Types::Color)
+      lib_points = points.map(&.to_lib)
+      LibRaylib.draw_triangle_fan(lib_points.to_unsafe, lib_points.size, color.to_lib)
     end
   end
 end
