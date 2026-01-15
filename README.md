@@ -50,6 +50,10 @@ To update:
 make setup-raylib  # Re-clones and rebuilds raylib 5.5
 ```
 
+## Kudos
+
+Huge thanks to [Raysan5](https://github.com/raysan5) for creating and maintaining [raylib](https://www.raylib.com), an amazing and easy-to-use graphics library. This project wouldn't exist without it.
+
 ## Development
 
 1. Create a feature branch: `git checkout -b feature/<name>`
