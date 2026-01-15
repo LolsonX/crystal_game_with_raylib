@@ -26,7 +26,7 @@ This project uses a Makefile for building. Raylib is included as a git submodule
 | `make run` | Build and run the game |
 | `make clean` | Remove build artifacts |
 | `make rebuild` | Clean and rebuild |
-| `make setup-raylib | Re-clone and rebuild raylib from source |
+| `make setup-raylib` | Re-clone and rebuild raylib from source |
 | `make help` | Show available targets |
 
 ### Custom Flags
@@ -59,7 +59,7 @@ make setup-raylib  # Re-clones and rebuilds raylib 5.5
 
 ## Contributing
 
-1. Fork it (https://github.com/your-github-user/crystal_game/fork)
+1. Fork it (https://github.com/LolsonX/crystal_game_with_raylib/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -67,4 +67,4 @@ make setup-raylib  # Re-clones and rebuilds raylib 5.5
 
 ## Contributors
 
-- [Karol Ostrowski](https://github.com/your-github-user) - creator and maintainer
+- [Karol Ostrowski](https://github.com/LolsonX) - creator and maintainer
