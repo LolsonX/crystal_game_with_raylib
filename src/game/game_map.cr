@@ -1,4 +1,19 @@
-class GameMap
+class Layer
+  def initialize
+  end
+
+  def publish_events
+    poll_events { |events| events.each {|event| Events::Bus.publish(event)} }
+  end
+
+  def events
+    @events ||= Array(Events::Base).new
+  end
+end
+
+class GameMap < Layer
+  include Game::Entities::Eventable
+  include Drawable
   getter width : Int32
   getter height : Int32
   getter tile_width : Int32
@@ -24,7 +39,11 @@ class GameMap
 
   def draw
     each_tile do |tile|
-      tile.try(&.draw)
+      if current_tile = tile
+        current_tile.draw
+        current_tile.events.each { |event| publish_event(event) }
+        publish_event(Events::TestEvent.new)
+      end
     end
   end
 

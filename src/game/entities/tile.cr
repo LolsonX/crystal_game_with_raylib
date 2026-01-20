@@ -1,5 +1,6 @@
 class Tile
   include Drawable
+  include Game::Entities::Eventable
 
   property x : Int32
   property y : Int32
