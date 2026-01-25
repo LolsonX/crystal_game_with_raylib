@@ -5,6 +5,7 @@ require "./crystal_raylib/drawing"
 require "./crystal_raylib/camera2d"
 require "./crystal_raylib/shapes"
 require "./crystal_raylib/input"
+require "./crystal_raylib/text"
 require "./crystal_raylib/timing"
 
 module CrystalRaylib

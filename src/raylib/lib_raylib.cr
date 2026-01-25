@@ -44,6 +44,11 @@ lib LibRaylib
   # Input
   fun key_pressed = GetKeyPressed : Int32
   fun key_down? = IsKeyDown(key_code : Int32) : Bool
+  fun mouse_position = GetMousePosition : Vector2
+
+  # Text
+  fun draw_fps = DrawFPS(x : Int32, y : Int32)
+  fun draw_text = DrawText(text : Pointer(UInt8), x : Int32, y : Int32, font_size : Int32, color : Color)
 
   # Timing
   fun set_target_fps = SetTargetFPS(fps : Int32)

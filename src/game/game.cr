@@ -15,8 +15,13 @@ class Game
     camera_target = CrystalRaylib::Types::Vector2.new(x: 0.0_f32, y: 0.0_f32)
     @camera = CrystalRaylib::Types::Camera2D.new(offset: camera_offset, target: camera_target)
     @layer_stack = Layers::Stack.new
-    @layer_stack.push Layers::GameMap.new(width: 16, height: 16)
+    populate_layer_stack
     Events::Bus.subscribe(Events::Handlers::KeyPressed.new, Events::KeyPressed)
+  end
+
+  def populate_layer_stack
+    @layer_stack.push Layers::GameMap.new(width: 16, height: 16)
+    @layer_stack.push Layers::DebugLayer.new(camera: camera)
   end
 
   def run

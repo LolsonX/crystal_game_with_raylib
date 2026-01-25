@@ -7,5 +7,9 @@ module CrystalRaylib
     def self.pressed_key : Int32
       LibRaylib.key_pressed
     end
+
+    def self.mouse_position : Types::Vector2
+      Types::Vector2.from_lib LibRaylib.mouse_position
+    end
   end
 end
