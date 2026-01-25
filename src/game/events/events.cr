@@ -1,6 +1,4 @@
 require "./base"
-require "./handler"
+require "./key_pressed"
+require "./handlers/handlers"
 require "./bus"
-
-require "./test_event"
-require "./test_handler"

@@ -10,16 +10,16 @@ module Events
       instance.publish(event)
     end
 
-    def self.subscribe(handler : Events::Handler, event_type : Class)
+    def self.subscribe(handler : Events::Handlers::Base, event_type : Class)
       instance.subscribe(handler, event_type)
     end
 
-    def self.unsubscribe(handler : Events::Handler)
+    def self.unsubscribe(handler : Events::Handlers::Base)
       instance.unsubscribe(handler)
     end
 
     def initialize
-      @handlers = Hash(String, Array(Events::Handler)).new { |hsh, key| hsh[key] = [] of Events::Handler }
+      @handlers = Hash(String, Array(Events::Handlers::Base)).new { |hsh, key| hsh[key] = [] of Events::Handlers::Base }
     end
 
     def publish(event : Events::Base)
@@ -28,11 +28,11 @@ module Events
       end
     end
 
-    def subscribe(handler : Events::Handler, event_type : Class)
+    def subscribe(handler : Events::Handlers::Base, event_type : Class)
       @handlers[event_type.name] << handler
     end
 
-    def unsubscribe(handler : Events::Handler)
+    def unsubscribe(handler : Events::Handlers::Base)
       @handlers.values.each &.delete(handler)
     end
   end
