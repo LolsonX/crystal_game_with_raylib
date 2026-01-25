@@ -1,2 +1,1 @@
-require "./drawable"
 require "./tile"
