@@ -1,7 +1,7 @@
 module Layers
   class GameMap < Base
-    include Traits::EventProcessable
     include Traits::Drawable
+    include Traits::Eventable
     getter width : Int32
     getter height : Int32
     getter tile_width : Int32

@@ -1,6 +1,7 @@
 require "./base"
 require "./game_map"
-require "./debug_layer"
+require "./debug"
+require "./input"
 require "./stack"
 
 module Layers

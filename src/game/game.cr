@@ -11,7 +11,7 @@ class Game
   property layer_stack : Layers::Stack
 
   def initialize
-    camera_offset = CrystalRaylib::Types::Vector2.new(x: (Window::WIDTH / 2 - TILE_WIDTH).to_f32, y: TILE_WIDTH.to_f32)
+    camera_offset = CrystalRaylib::Types::Vector2.new(x: (Window::WIDTH - TILE_WIDTH) / 2_f32, y: 0)
     camera_target = CrystalRaylib::Types::Vector2.new(x: 0.0_f32, y: 0.0_f32)
     @camera = CrystalRaylib::Types::Camera2D.new(offset: camera_offset, target: camera_target)
     @layer_stack = Layers::Stack.new
@@ -20,8 +20,9 @@ class Game
   end
 
   def populate_layer_stack
-    @layer_stack.push Layers::GameMap.new(width: 16, height: 16)
-    @layer_stack.push Layers::DebugLayer.new(camera: camera)
+    @layer_stack.push Layers::GameMap.new(width: 64, height: 64)
+    @layer_stack.push Layers::Debug.new(camera: camera)
+    @layer_stack.push Layers::Input.new
   end
 
   def run
@@ -37,7 +38,8 @@ class Game
     CrystalRaylib::Drawing.clear_background(CrystalRaylib::Types::Color.new(red: 31, green: 31, blue: 31, alpha: 255))
     CrystalRaylib::Camera2D.with_mode_2d(camera) do
       @layer_stack.each_with_trait(Traits::Drawable, &.draw)
-      @layer_stack.each_with_trait(Traits::EventProcessable) { |layer| layer.process_events }
+      @layer_stack.each_with_trait(Traits::Eventable, &.emit)
+      @layer_stack.each_with_trait(Traits::Eventable, &.process_events)
     end
   end
 end

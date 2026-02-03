@@ -24,7 +24,7 @@ module Events
 
     def publish(event : Events::Base)
       if handlers = @handlers[event.class.name]
-        handlers.each { |handler| return unless handler.handle(event) }
+        handlers.each { |handler| break unless handler.handle(event) }
       end
     end
 

@@ -1,5 +1,7 @@
 module Traits
   module Eventable
+    def emit; end
+
     def publish_event(event : Events::Base)
       events << event
     end
@@ -11,6 +13,10 @@ module Traits
     def poll_events(&)
       yield events
       events.clear
+    end
+
+    def process_events
+      poll_events { |events| events.each { |event| Events::Bus.publish(event) } }
     end
   end
 end

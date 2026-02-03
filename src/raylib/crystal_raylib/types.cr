@@ -14,7 +14,13 @@ module CrystalRaylib
       getter x : Float32
       getter y : Float32
 
+      EPSILON = 0.001_f32
+
       def initialize(@x : Float32, @y : Float32)
+      end
+
+      def roughly_equals?(other : Vector2) : Bool
+        (x - other.x).abs < EPSILON && (y - other.y).abs < EPSILON
       end
     end
 
