@@ -7,11 +7,11 @@ module Layers
     end
 
     def push(layer : Layers::Base)
-      @layers.tap &.push(layer)
-        .sort { |stacked_layer| -stacked_layer.priority }
+      @layers.push(layer)
+      @layers.sort! { |a, b| b.priority <=> a.priority }
     end
 
-    def layers_with_trait(tait : T.class) forall T
+    def layers_with_trait(trait : T.class) forall T
       @layers.select(T)
         .map(&.as(T))
     end

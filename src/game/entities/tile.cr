@@ -1,7 +1,5 @@
 module Entities
   class Tile
-    include Traits::Eventable
-
     alias Vector2 = CrystalRaylib::Types::Vector2
     alias Color = CrystalRaylib::Types::Color
 
@@ -16,8 +14,6 @@ module Entities
     HEIGHT = WIDTH // 2
 
     OUTLINE_COLOR = CrystalRaylib::Colors::RED
-
-    VELOCITY = 100
 
     def initialize(@x : Int32, @y : Int32, @color = Color.new(red: 200, green: 31, blue: 31, alpha: 255))
     end
@@ -86,12 +82,9 @@ module Entities
       Vector2.new(x: vector.x * multiplier, y: vector.y * multiplier)
     end
 
-    def ==(tile)
-      if other_tile = tile
-        x == other_tile.x && y == other_tile.y
-      else
-        false
-      end
+    def ==(other : Tile?) : Bool
+      return false unless other
+      x == other.x && y == other.y
     end
   end
 end

@@ -112,8 +112,8 @@ module Layers
       [CrystalRaylib::Timing.frame_time, LIMITS::MINIMAL_FRAME_TIME].max
     end
 
-    def mouse_input_handler : Events::Handlers::MousePositionChanged
-      @mouse_input_handler ||= Events::Handlers::MousePositionChanged.new(
+    def mouse_input_handler : Events::Handlers::CallbackHandler
+      @mouse_input_handler ||= Events::Handlers::CallbackHandler.new(
         handler: ->(event : Events::Base) { mouse_position_changed_handler(event) }
       )
     end
@@ -124,13 +124,13 @@ module Layers
       end
     end
 
-    def tile_change_handler : Events::Handlers::TileChangedHandler
-      @tile_changed_handler ||= Events::Handlers::TileChangedHandler.new(
-        handler: ->(event : Events::Base) { tile_changed_handler(event) }
+    def tile_change_handler : Events::Handlers::CallbackHandler
+      @tile_changed_handler ||= Events::Handlers::CallbackHandler.new(
+        handler: ->(event : Events::Base) { on_tile_changed(event) }
       )
     end
 
-    def tile_changed_handler(event)
+    def on_tile_changed(event)
       if event.is_a? Events::CurrentTileChanged
         @tile = event.tile
       end

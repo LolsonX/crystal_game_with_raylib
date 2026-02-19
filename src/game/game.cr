@@ -5,13 +5,11 @@ require "./entities/entity"
 require "./layers/layers"
 
 class Game
-  TILE_WIDTH = 64
-
   property camera : CrystalRaylib::Types::Camera2D
   property layer_stack : Layers::Stack
 
   def initialize
-    camera_offset = CrystalRaylib::Types::Vector2.new(x: (Window::WIDTH - TILE_WIDTH) / 2_f32, y: 0)
+    camera_offset = CrystalRaylib::Types::Vector2.new(x: (Window::WIDTH - Entities::Tile::WIDTH) / 2_f32, y: 0)
     camera_target = CrystalRaylib::Types::Vector2.new(x: 0.0_f32, y: 0.0_f32)
     @camera = CrystalRaylib::Types::Camera2D.new(offset: camera_offset, target: camera_target)
     @layer_stack = Layers::Stack.new

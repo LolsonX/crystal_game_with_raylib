@@ -19,8 +19,8 @@ module Layers
       Events::Bus.subscribe(mouse_input_handler, Events::MousePositionChanged)
     end
 
-    def mouse_input_handler : Events::Handlers::MousePositionChanged
-      @mouse_input_handler ||= Events::Handlers::MousePositionChanged.new(
+    def mouse_input_handler : Events::Handlers::CallbackHandler
+      @mouse_input_handler ||= Events::Handlers::CallbackHandler.new(
         handler: ->(event : Events::Base) { mouse_position_changed_handler(event) }
       )
     end
@@ -56,17 +56,7 @@ module Layers
       end
     end
 
-    def emit
-      each_tile do |tile|
-        if current_tile = tile
-          current_tile.poll_events do |tile_events|
-            if events = @events
-              events += tile_events
-            end
-          end
-        end
-      end
-    end
+    def emit; end
 
     private def calculate_current_tile(position : CrystalRaylib::Types::Vector2)
       x = position.x / Entities::Tile::WIDTH * 2
