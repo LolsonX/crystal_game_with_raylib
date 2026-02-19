@@ -16,5 +16,9 @@ module CrystalRaylib
       lib_points = points.map(&.to_lib)
       LibRaylib.draw_triangle_fan(lib_points.to_unsafe, lib_points.size, color.to_lib)
     end
+
+    def self.draw_line(start_pos : Types::Vector2, end_pos : Types::Vector2, thickness : Float32, color : Types::Color)
+      LibRaylib.draw_line_ex(start_pos: start_pos.to_lib, end_pos: end_pos.to_lib, thickness: thickness, color: color.to_lib)
+    end
   end
 end
