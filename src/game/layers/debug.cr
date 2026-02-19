@@ -25,11 +25,10 @@ module Layers
       MINIMAL_FRAME_TIME = 0.0000001
     end
 
-    private getter camera : CrystalRaylib::Types::Camera2D
-    private property mouse_position : CrystalRaylib::Types::Vector2
+    private setter mouse_position : Entities::MousePosition?
+    private property tile : Entities::Tile?
 
-    def initialize(@camera : CrystalRaylib::Types::Camera2D, @priority : Int32 = -1, @visible : Bool = true)
-      @mouse_position = CrystalRaylib::Types::Vector2.new(x: 0, y: 0)
+    def initialize(@priority : Int32 = -1, @visible : Bool = true)
       register_handlers
     end
 
@@ -38,10 +37,12 @@ module Layers
       draw_fps
       draw_mouse_position
       draw_mouse_world_position
+      draw_current_tile_info
     end
 
     def register_handlers
       Events::Bus.subscribe(mouse_input_handler, Events::MousePositionChanged)
+      Events::Bus.subscribe(tile_change_handler, Events::CurrentTileChanged)
     end
 
     def draw_background
@@ -64,24 +65,47 @@ module Layers
     end
 
     def draw_mouse_position
-      CrystalRaylib::Text.draw_text(
-        text: "Mouse position x: #{mouse_position.x} y: #{mouse_position.y}",
-        x: LOCATION::SCREEN_POSITION.x.to_i + LOCATION::PADDING_LEFT,
-        y: LOCATION::SCREEN_POSITION.y.to_i + LOCATION::MARGIN_TOP + LOCATION::PADDING_TOP,
-        size: STYLE::FONT_SIZE,
-        color: STYLE::TEXT_COLOR
-      )
+      if mouse_position = @mouse_position
+        CrystalRaylib::Text.draw_text(
+          text: "Mouse position x: #{mouse_position.screen_x} y: #{mouse_position.screen_y}",
+          x: LOCATION::SCREEN_POSITION.x.to_i + LOCATION::PADDING_LEFT,
+          y: LOCATION::SCREEN_POSITION.y.to_i + LOCATION::MARGIN_TOP + LOCATION::PADDING_TOP,
+          size: STYLE::FONT_SIZE,
+          color: STYLE::TEXT_COLOR
+        )
+      end
     end
 
     def draw_mouse_world_position
-      world_position = CrystalRaylib::Camera2D.screen_to_world_2d(vector: mouse_position, camera: camera)
-      CrystalRaylib::Text.draw_text(
-        text: "World mouse position x: #{world_position.x} y: #{world_position.y}",
-        x: LOCATION::SCREEN_POSITION.x.to_i + LOCATION::PADDING_LEFT,
-        y: LOCATION::SCREEN_POSITION.y.to_i + 2 * LOCATION::MARGIN_TOP + LOCATION::PADDING_TOP,
-        size: STYLE::FONT_SIZE,
-        color: STYLE::TEXT_COLOR
-      )
+      if mouse_position = @mouse_position
+        CrystalRaylib::Text.draw_text(
+          text: "World mouse position x: #{mouse_position.world_x} y: #{mouse_position.world_y}",
+          x: LOCATION::SCREEN_POSITION.x.to_i + LOCATION::PADDING_LEFT,
+          y: LOCATION::SCREEN_POSITION.y.to_i + 2 * LOCATION::MARGIN_TOP + LOCATION::PADDING_TOP,
+          size: STYLE::FONT_SIZE,
+          color: STYLE::TEXT_COLOR
+        )
+      end
+    end
+
+    def draw_current_tile_info
+      if current_tile = tile
+        CrystalRaylib::Text.draw_text(
+          text: "Current Tile: x: #{current_tile.x}, y: #{current_tile.y}",
+          x: LOCATION::SCREEN_POSITION.x.to_i + LOCATION::PADDING_LEFT,
+          y: LOCATION::SCREEN_POSITION.y.to_i + 3 * LOCATION::MARGIN_TOP + LOCATION::PADDING_TOP,
+          size: STYLE::FONT_SIZE,
+          color: STYLE::TEXT_COLOR
+        )
+      else
+        CrystalRaylib::Text.draw_text(
+          text: "Current Tile: x: None, y: None",
+          x: LOCATION::SCREEN_POSITION.x.to_i + LOCATION::PADDING_LEFT,
+          y: LOCATION::SCREEN_POSITION.y.to_i + 3 * LOCATION::MARGIN_TOP + LOCATION::PADDING_TOP,
+          size: STYLE::FONT_SIZE,
+          color: STYLE::TEXT_COLOR
+        )
+      end
     end
 
     def frame_time
@@ -97,6 +121,18 @@ module Layers
     def mouse_position_changed_handler(event : Events::Base) : Void
       if event.is_a? Events::MousePositionChanged
         @mouse_position = event.new_position
+      end
+    end
+
+    def tile_change_handler : Events::Handlers::TileChangedHandler
+      @tile_changed_handler ||= Events::Handlers::TileChangedHandler.new(
+        handler: ->(event : Events::Base) { tile_changed_handler(event) }
+      )
+    end
+
+    def tile_changed_handler(event)
+      if event.is_a? Events::CurrentTileChanged
+        @tile = event.tile
       end
     end
   end

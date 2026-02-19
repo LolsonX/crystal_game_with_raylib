@@ -40,7 +40,7 @@ lib LibRaylib
   fun draw_rectangle = DrawRectangle(x : Int32, y : Int32, width : Int32, height : Int32, color : Color)
   fun draw_triangle = DrawTriangle(vertex_1 : Vector2, vertex_2 : Vector2, vertex_3 : Vector2, color : Color)
   fun draw_triangle_fan = DrawTriangleFan(points : Pointer(Vector2), point_count : Int32, color : Color)
-
+  fun draw_line_ex = DrawLineEx(start_pos : Vector2, end_pos : Vector2, thickness : Float32, color : Color)
   # Input
   fun key_pressed = GetKeyPressed : Int32
   fun key_down? = IsKeyDown(key_code : Int32) : Bool

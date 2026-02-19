@@ -21,8 +21,8 @@ class Game
 
   def populate_layer_stack
     @layer_stack.push Layers::GameMap.new(width: 64, height: 64)
-    @layer_stack.push Layers::Debug.new(camera: camera)
-    @layer_stack.push Layers::Input.new
+    @layer_stack.push Layers::Debug.new
+    @layer_stack.push Layers::Input.new(camera: camera)
   end
 
   def run
