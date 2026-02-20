@@ -13,7 +13,7 @@ struct DebugConfig
       @padding_left = 5,
       @margin_top = 30,
       @box_padding = 10,
-      @category_spacing = 10
+      @category_spacing = 10,
     )
     end
   end
@@ -40,7 +40,7 @@ struct DebugConfig
       @category_color = CrystalRaylib::Colors::LIGHT_GRAY,
       @outline_color = CrystalRaylib::Colors::WHITE,
       @outline_thickness = 2.0_f32,
-      @font_size = 20
+      @font_size = 20,
     )
     end
   end
@@ -52,7 +52,7 @@ struct DebugConfig
   def initialize(
     @location = Location.new,
     @dimensions = Dimensions.new,
-    @style = Style.new
+    @style = Style.new,
   )
   end
 

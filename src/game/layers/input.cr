@@ -7,7 +7,7 @@ module Layers
     getter mouse_position : Entities::MousePosition
     private getter camera : Camera2D
 
-    def initialize(@camera : Camera2D, @priority = 10)
+    def initialize(@camera : Camera2D, @priority = 20)
       @mouse_position = build_mouse_position
     end
 

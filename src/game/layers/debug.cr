@@ -13,7 +13,7 @@ module Layers
     private property tile : Entities::Tile?
     @renderer : DebugRenderer
 
-    def initialize(@priority : Int32 = -1, @visible : Bool = true)
+    def initialize(@priority : Int32 = 10, @visible : Bool = true)
       @renderer = DebugRenderer.new
       register_debug_items
       register_handlers
@@ -32,8 +32,8 @@ module Layers
     end
 
     def register_handlers
-      Events::Bus.subscribe(mouse_input_handler, Events::MousePositionChanged)
-      Events::Bus.subscribe(tile_change_handler, Events::CurrentTileChanged)
+      subscribe_handler(mouse_input_handler, Events::MousePositionChanged)
+      subscribe_handler(tile_change_handler, Events::CurrentTileChanged)
     end
 
     private def update_fps

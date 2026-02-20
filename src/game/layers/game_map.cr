@@ -16,7 +16,7 @@ module Layers
     end
 
     def register_handlers
-      Events::Bus.subscribe(mouse_input_handler, Events::MousePositionChanged)
+      subscribe_handler(mouse_input_handler, Events::MousePositionChanged)
     end
 
     def mouse_input_handler : Events::Handlers::CallbackHandler

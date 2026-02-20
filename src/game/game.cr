@@ -14,7 +14,7 @@ class Game
     @camera = CrystalRaylib::Types::Camera2D.new(offset: camera_offset, target: camera_target)
     @layer_stack = Layers::Stack.new
     populate_layer_stack
-    Events::Bus.subscribe(Events::Handlers::KeyPressed.new, Events::KeyPressed)
+    Events::Bus.subscribe(Events::Handlers::KeyPressed.new, Events::KeyPressed, priority: 0)
   end
 
   def populate_layer_stack

@@ -8,7 +8,7 @@ module Layers
 
     def push(layer : Layers::Base)
       @layers.push(layer)
-      @layers.sort! { |a, b| b.priority <=> a.priority }
+      @layers.sort! { |layer_a, layer_b| layer_a.priority <=> layer_b.priority }
     end
 
     def layers_with_trait(trait : T.class) forall T

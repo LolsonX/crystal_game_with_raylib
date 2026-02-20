@@ -27,7 +27,7 @@ module Entities
 
     def triangles : Array(Array(Vector2))
       if triangles = @triangles
-        return triangles
+        triangles
       else
         v1, v2, v3, v4 = vertices
         @triangles ||= [
@@ -48,8 +48,8 @@ module Entities
     end
 
     def outline : Array(Array(Vector2))
-      if (outline = @outline)
-        return outline
+      if outline = @outline
+        outline
       else
         v1, v2, v3, v4 = vertices
         @outline ||= [

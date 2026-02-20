@@ -15,12 +15,12 @@ class DebugRenderer
 
       box_height = calculate_category_height(items)
       draw_category_box(@current_y, box_height)
-      
+
       draw_category_header(category)
       items.each do |definition, value|
         draw_item(definition, value)
       end
-      
+
       @current_y += config.location.box_padding * 2 + config.location.category_spacing
     end
   end
@@ -44,7 +44,7 @@ class DebugRenderer
     box_x = config.location.screen_position.x.to_i + config.location.box_padding
     box_y = y - config.location.box_padding
     box_width = config.dimensions.width - (config.location.box_padding * 2)
-    
+
     CrystalRaylib::Shapes.draw_rectangle_lines_ex(
       x: box_x,
       y: box_y,
