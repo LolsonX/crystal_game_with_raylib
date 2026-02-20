@@ -20,5 +20,14 @@ module CrystalRaylib
     def self.draw_line(start_pos : Types::Vector2, end_pos : Types::Vector2, thickness : Float32, color : Types::Color)
       LibRaylib.draw_line_ex(start_pos: start_pos.to_lib, end_pos: end_pos.to_lib, thickness: thickness, color: color.to_lib)
     end
+
+    def self.draw_rectangle_lines(x : Int32, y : Int32, width : Int32, height : Int32, color : Types::Color)
+      LibRaylib.draw_rectangle_lines(x, y, width, height, color.to_lib)
+    end
+
+    def self.draw_rectangle_lines_ex(x : Int32, y : Int32, width : Int32, height : Int32, line_thick : Float32, color : Types::Color)
+      rec = LibRaylib::Rectangle.new(x: x.to_f32, y: y.to_f32, width: width.to_f32, height: height.to_f32)
+      LibRaylib.draw_rectangle_lines_ex(rec, line_thick, color.to_lib)
+    end
   end
 end

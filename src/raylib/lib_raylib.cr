@@ -19,6 +19,13 @@ lib LibRaylib
     y : Float32
   end
 
+  struct Rectangle
+    x : Float32
+    y : Float32
+    width : Float32
+    height : Float32
+  end
+
   # Window
   fun init_window = InitWindow(width : Int32, height : Int32, title : Pointer(UInt8))
   fun close_window = CloseWindow
@@ -41,6 +48,8 @@ lib LibRaylib
   fun draw_triangle = DrawTriangle(vertex_1 : Vector2, vertex_2 : Vector2, vertex_3 : Vector2, color : Color)
   fun draw_triangle_fan = DrawTriangleFan(points : Pointer(Vector2), point_count : Int32, color : Color)
   fun draw_line_ex = DrawLineEx(start_pos : Vector2, end_pos : Vector2, thickness : Float32, color : Color)
+  fun draw_rectangle_lines = DrawRectangleLines(x : Int32, y : Int32, width : Int32, height : Int32, color : Color)
+  fun draw_rectangle_lines_ex = DrawRectangleLinesEx(rec : Rectangle, line_thick : Float32, color : Color)
   # Input
   fun key_pressed = GetKeyPressed : Int32
   fun key_down? = IsKeyDown(key_code : Int32) : Bool
