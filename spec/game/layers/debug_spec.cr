@@ -1,33 +1,14 @@
 require "../../spec_helper"
 
-module CrystalRaylib
-  module Timing
-    @@frame_time : Float32 = 0.016_f32
-
-    def self.frame_time : Float32
-      @@frame_time
-    end
-  end
-end
-
-require "../../../src/game/layers/debug"
-
 describe Layers::Debug do
-  before_each do
-    DebugRegistry.instance.definitions.clear
-    DebugRegistry.instance.values.clear
-    DebugRegistry.instance.hidden_items.clear
-    DebugRegistry.instance.hidden_categories.clear
-  end
-
   context "when initialized" do
     it "registers debug items in the registry" do
       Layers::Debug.new
 
-      DebugRegistry.instance.definitions.has_key?("fps").should be_true
-      DebugRegistry.instance.definitions.has_key?("mouse_screen").should be_true
-      DebugRegistry.instance.definitions.has_key?("mouse_world").should be_true
-      DebugRegistry.instance.definitions.has_key?("tile").should be_true
+      Debug::Registry.instance.definitions.has_key?("fps").should be_true
+      Debug::Registry.instance.definitions.has_key?("mouse_screen").should be_true
+      Debug::Registry.instance.definitions.has_key?("mouse_world").should be_true
+      Debug::Registry.instance.definitions.has_key?("tile").should be_true
     end
 
     it "includes ScreenDrawable for screen-space rendering" do
@@ -65,8 +46,8 @@ describe Layers::Debug do
 
       Events::Bus.instance.publish(event)
 
-      DebugRegistry.get("mouse_screen").should eq("800.0, 600.0")
-      DebugRegistry.get("mouse_world").should eq("100.0, 200.0")
+      Debug::Registry.get("mouse_screen").should eq("800.0, 600.0")
+      Debug::Registry.get("mouse_world").should eq("100.0, 200.0")
     end
   end
 
@@ -79,7 +60,7 @@ describe Layers::Debug do
 
       Events::Bus.instance.publish(event)
 
-      DebugRegistry.get("tile").should eq("5, 10")
+      Debug::Registry.get("tile").should eq("5, 10")
     end
   end
 
@@ -91,7 +72,7 @@ describe Layers::Debug do
 
       Events::Bus.instance.publish(event)
 
-      DebugRegistry.get("tile").should eq("None")
+      Debug::Registry.get("tile").should eq("None")
     end
   end
 end

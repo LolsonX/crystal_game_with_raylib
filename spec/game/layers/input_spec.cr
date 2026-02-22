@@ -1,21 +1,5 @@
 require "../../spec_helper"
 
-module CrystalRaylib
-  module Input
-    @@mock_mouse_position : Types::Vector2 = Types::Vector2.new(x: 0.0_f32, y: 0.0_f32)
-
-    def self.mock_mouse_position=(pos : Types::Vector2)
-      @@mock_mouse_position = pos
-    end
-
-    def self.mouse_position : Types::Vector2
-      @@mock_mouse_position
-    end
-  end
-end
-
-require "../../../src/game/layers/input"
-
 describe Layers::Input do
   context "when initialized with a camera" do
     it "stores the camera and priority" do

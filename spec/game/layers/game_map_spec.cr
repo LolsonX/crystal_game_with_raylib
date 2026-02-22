@@ -1,15 +1,5 @@
 require "../../spec_helper"
 
-module CrystalRaylib
-  module Camera2D
-    def self.screen_to_world_2d(vector : Types::Vector2, camera : Types::Camera2D) : Types::Vector2
-      Types::Vector2.new(x: vector.x - camera.offset.x, y: vector.y - camera.offset.y)
-    end
-  end
-end
-
-require "../../../src/game/layers/game_map"
-
 class TestableGameMap < Layers::GameMap
   def tiles_array
     @tiles

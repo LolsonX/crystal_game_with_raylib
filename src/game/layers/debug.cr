@@ -11,24 +11,24 @@ module Layers
 
     private setter mouse_position : Entities::MousePosition?
     private property tile : Entities::Tile?
-    @renderer : DebugRenderer
+    @renderer : ::Debug::Renderer
 
     def initialize(@priority : Int32 = 10, @visible : Bool = true)
-      @renderer = DebugRenderer.new
+      @renderer = ::Debug::Renderer.new
       register_debug_items
       register_handlers
     end
 
     def register_debug_items
-      DebugRegistry.register("fps", "FPS", "Performance")
-      DebugRegistry.register("mouse_screen", "Screen Pos", "Mouse")
-      DebugRegistry.register("mouse_world", "World Pos", "Mouse")
-      DebugRegistry.register("tile", "Current Tile", "World")
+      ::Debug::Registry.register("fps", "FPS", "Performance")
+      ::Debug::Registry.register("mouse_screen", "Screen Pos", "Mouse")
+      ::Debug::Registry.register("mouse_world", "World Pos", "Mouse")
+      ::Debug::Registry.register("tile", "Current Tile", "World")
     end
 
     def draw
       update_fps
-      @renderer.render(DebugRegistry.items_by_category)
+      @renderer.render(::Debug::Registry.items_by_category)
     end
 
     def register_handlers
@@ -38,7 +38,7 @@ module Layers
 
     private def update_fps
       fps = (1 // frame_time).to_s
-      DebugRegistry.set("fps", fps)
+      ::Debug::Registry.set("fps", fps)
     end
 
     private def frame_time
@@ -54,8 +54,8 @@ module Layers
     private def on_mouse_position_changed(event : Events::Base) : Void
       if event.is_a? Events::MousePositionChanged
         @mouse_position = event.new_position
-        DebugRegistry.set("mouse_screen", "#{event.new_position.screen_x}, #{event.new_position.screen_y}")
-        DebugRegistry.set("mouse_world", "#{event.new_position.world_x}, #{event.new_position.world_y}")
+        ::Debug::Registry.set("mouse_screen", "#{event.new_position.screen_x}, #{event.new_position.screen_y}")
+        ::Debug::Registry.set("mouse_world", "#{event.new_position.world_x}, #{event.new_position.world_y}")
       end
     end
 
@@ -69,9 +69,9 @@ module Layers
       if event.is_a? Events::CurrentTileChanged
         @tile = event.tile
         if tile = event.tile
-          DebugRegistry.set("tile", "#{tile.x}, #{tile.y}")
+          ::Debug::Registry.set("tile", "#{tile.x}, #{tile.y}")
         else
-          DebugRegistry.set("tile", "None")
+          ::Debug::Registry.set("tile", "None")
         end
       end
     end

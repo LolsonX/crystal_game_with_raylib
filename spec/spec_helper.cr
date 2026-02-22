@@ -45,24 +45,92 @@ module CrystalRaylib
     RED        = Types::Color.new(red: 255, green: 0, blue: 0, alpha: 255)
     LIGHT_GRAY = Types::Color.new(red: 200, green: 200, blue: 200, alpha: 255)
   end
+
+  module Input
+    @@mock_mouse_position : Types::Vector2 = Types::Vector2.new(x: 0.0_f32, y: 0.0_f32)
+
+    def self.mock_mouse_position=(pos : Types::Vector2)
+      @@mock_mouse_position = pos
+    end
+
+    def self.mouse_position : Types::Vector2
+      @@mock_mouse_position
+    end
+  end
+
+  module Timing
+    @@frame_time : Float32 = 0.016_f32
+
+    def self.frame_time : Float32
+      @@frame_time
+    end
+
+    def self.frame_time=(value : Float32)
+      @@frame_time = value
+    end
+
+    def self.target_fps=(fps : Int32)
+    end
+  end
+
+  module Camera2D
+    def self.screen_to_world_2d(vector : Types::Vector2, camera : Types::Camera2D) : Types::Vector2
+      Types::Vector2.new(x: vector.x - camera.offset.x, y: vector.y - camera.offset.y)
+    end
+
+    def self.with_mode_2d(camera : Types::Camera2D, &block)
+      yield
+    end
+  end
+
+  module Shapes
+    def self.draw_rectangle(x : Int32, y : Int32, width : Int32, height : Int32, color : Types::Color)
+    end
+
+    def self.draw_rectangle_lines_ex(x : Int32, y : Int32, width : Int32, height : Int32, line_thick : Int32, color : Types::Color)
+    end
+  end
+
+  module Text
+    def self.draw_text(text : String, x : Int32, y : Int32, size : Int32, color : Types::Color)
+    end
+  end
+
+  module Drawing
+    def self.draw(&block)
+      yield
+    end
+
+    def self.clear_background(color : Types::Color)
+    end
+  end
+
+  module Window
+    @@window_should_close : Bool = false
+
+    def self.window_should_close : Bool
+      @@window_should_close
+    end
+
+    def self.window_should_close=(value : Bool)
+      @@window_should_close = value
+    end
+
+    def self.with_window(width : Int32, height : Int32, title : Pointer(UInt8), &block)
+      yield
+    end
+  end
 end
 
-require "../src/game/events/base"
-require "../src/game/events/bus"
-require "../src/game/events/mouse_position_changed"
-require "../src/game/events/current_tile_changed"
-require "../src/game/events/key_pressed"
-require "../src/game/events/handlers/base"
-require "../src/game/events/handlers/key_pressed"
-require "../src/game/traits/eventable"
-require "../src/game/traits/world_drawable"
-require "../src/game/traits/screen_drawable"
-require "../src/game/layers/base"
-require "../src/game/layers/stack"
-require "../src/game/entities/tile"
-require "../src/game/entities/mouse_position"
-require "../src/game/debug/registry"
+require "../src/game/game"
 
 Spec.before_each do
   Events::Bus.reset
+  Debug::Registry.instance.definitions.clear
+  Debug::Registry.instance.values.clear
+  Debug::Registry.instance.hidden_items.clear
+  Debug::Registry.instance.hidden_categories.clear
+  CrystalRaylib::Input.mock_mouse_position = CrystalRaylib::Types::Vector2.new(x: 0.0_f32, y: 0.0_f32)
+  CrystalRaylib::Timing.frame_time = 0.016_f32
+  CrystalRaylib::Window.window_should_close = false
 end
