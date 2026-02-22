@@ -1,6 +1,6 @@
 module Layers
   class GameMap < Base
-    include Traits::Drawable
+    include Traits::WorldDrawable
     include Traits::Eventable
     getter width : Int32
     getter height : Int32

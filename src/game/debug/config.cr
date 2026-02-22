@@ -1,3 +1,5 @@
+require "../window"
+
 struct DebugConfig
   struct Location
     getter screen_position : CrystalRaylib::Types::Vector2
@@ -8,7 +10,10 @@ struct DebugConfig
     getter category_spacing : Int32
 
     def initialize(
-      @screen_position = CrystalRaylib::Types::Vector2.new(x: 600, y: 10),
+      @screen_position = CrystalRaylib::Types::Vector2.new(
+        x: (Window::WIDTH - 420 - 10).to_f32,
+        y: 10.0_f32
+      ),
       @padding_top = 5,
       @padding_left = 5,
       @margin_top = 30,

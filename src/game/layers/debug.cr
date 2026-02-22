@@ -2,7 +2,7 @@ require "../debug"
 
 module Layers
   class Debug < Base
-    include Traits::Drawable
+    include Traits::ScreenDrawable
     include Traits::Eventable
 
     module Limits

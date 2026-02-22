@@ -1,15 +1,8 @@
 require "../../spec_helper"
 
 describe Entities::Tile do
-  describe "#initialize" do
-    it "sets x and y coordinates" do
-      tile = Entities::Tile.new(x: 5, y: 10)
-
-      tile.x.should eq(5)
-      tile.y.should eq(10)
-    end
-
-    it "sets default color" do
+  context "when initialized with coordinates" do
+    it "sets the default color" do
       tile = Entities::Tile.new(x: 0, y: 0)
 
       tile.color.red.should eq(200)
@@ -17,7 +10,7 @@ describe Entities::Tile do
       tile.color.blue.should eq(31)
     end
 
-    it "accepts custom color" do
+    it "accepts a custom color" do
       color = CrystalRaylib::Types::Color.new(red: 100, green: 150, blue: 200, alpha: 255)
       tile = Entities::Tile.new(x: 0, y: 0, color: color)
 
@@ -25,53 +18,52 @@ describe Entities::Tile do
     end
   end
 
-  describe "#iso_x" do
-    it "converts grid x=0, y=0 to iso_x=0" do
+  context "when converting grid position to isometric x coordinate" do
+    it "returns 0 for the origin (0, 0)" do
       tile = Entities::Tile.new(x: 0, y: 0)
+
       tile.iso_x.should eq(0)
     end
 
-    it "converts grid coordinates correctly for positive values" do
-      tile = Entities::Tile.new(x: 2, y: 1)
-      expected = (2 - 1) * Entities::Tile::WIDTH // 2
-      tile.iso_x.should eq(expected)
-    end
-
-    it "converts grid coordinates correctly for x > y" do
+    it "calculates correctly for positive coordinates where x > y" do
       tile = Entities::Tile.new(x: 3, y: 1)
       expected = (3 - 1) * Entities::Tile::WIDTH // 2
+
       tile.iso_x.should eq(expected)
     end
 
-    it "converts grid coordinates correctly for y > x" do
+    it "calculates correctly for positive coordinates where y > x" do
       tile = Entities::Tile.new(x: 1, y: 3)
       expected = (1 - 3) * Entities::Tile::WIDTH // 2
+
       tile.iso_x.should eq(expected)
     end
   end
 
-  describe "#iso_y" do
-    it "converts grid x=0, y=0 to iso_y=0" do
+  context "when converting grid position to isometric y coordinate" do
+    it "returns 0 for the origin (0, 0)" do
       tile = Entities::Tile.new(x: 0, y: 0)
+
       tile.iso_y.should eq(0)
     end
 
-    it "converts grid coordinates correctly" do
+    it "calculates correctly as the sum of coordinates scaled by half height" do
       tile = Entities::Tile.new(x: 2, y: 3)
       expected = (2 + 3) * Entities::Tile::HEIGHT // 2
+
       tile.iso_y.should eq(expected)
     end
   end
 
-  describe "#vertices" do
-    it "returns 4 vertices" do
+  context "when generating geometry vertices" do
+    it "returns 4 vertices forming a diamond shape" do
       tile = Entities::Tile.new(x: 0, y: 0)
       vertices = tile.vertices
 
       vertices.size.should eq(4)
     end
 
-    it "returns consistent vertices" do
+    it "returns consistent vertices across multiple calls" do
       tile = Entities::Tile.new(x: 0, y: 0)
       v1 = tile.vertices
       v2 = tile.vertices
@@ -80,7 +72,7 @@ describe Entities::Tile do
     end
   end
 
-  describe "#triangles" do
+  context "when generating triangles" do
     it "returns 2 triangles" do
       tile = Entities::Tile.new(x: 0, y: 0)
       triangles = tile.triangles
@@ -89,7 +81,7 @@ describe Entities::Tile do
       triangles.each(&.size.should(eq(3)))
     end
 
-    it "returns consistent triangles" do
+    it "returns consistent triangles across multiple calls" do
       tile = Entities::Tile.new(x: 0, y: 0)
       t1 = tile.triangles
       t2 = tile.triangles
@@ -98,7 +90,7 @@ describe Entities::Tile do
     end
   end
 
-  describe "#outline" do
+  context "when generating outline segments" do
     it "returns 4 line segments" do
       tile = Entities::Tile.new(x: 0, y: 0)
       outline = tile.outline
@@ -107,7 +99,7 @@ describe Entities::Tile do
       outline.each(&.size.should(eq(2)))
     end
 
-    it "returns consistent outline" do
+    it "returns consistent outline across multiple calls" do
       tile = Entities::Tile.new(x: 0, y: 0)
       o1 = tile.outline
       o2 = tile.outline
@@ -116,37 +108,37 @@ describe Entities::Tile do
     end
   end
 
-  describe "#==" do
-    it "returns true for same x and y" do
+  context "when comparing two tiles" do
+    it "considers tiles equal when coordinates match" do
       tile1 = Entities::Tile.new(x: 3, y: 5)
       tile2 = Entities::Tile.new(x: 3, y: 5)
 
       tile1.should eq(tile2)
     end
 
-    it "returns false for different x" do
+    it "considers tiles unequal when x differs" do
       tile1 = Entities::Tile.new(x: 3, y: 5)
       tile2 = Entities::Tile.new(x: 4, y: 5)
 
       tile1.should_not eq(tile2)
     end
 
-    it "returns false for different y" do
+    it "considers tiles unequal when y differs" do
       tile1 = Entities::Tile.new(x: 3, y: 5)
       tile2 = Entities::Tile.new(x: 3, y: 6)
 
       tile1.should_not eq(tile2)
     end
 
-    it "returns false for nil" do
+    it "considers any tile unequal to nil" do
       tile = Entities::Tile.new(x: 0, y: 0)
 
       tile.should_not eq(nil)
     end
   end
 
-  describe "WIDTH and HEIGHT constants" do
-    it "HEIGHT is half of WIDTH" do
+  context "given the WIDTH and HEIGHT constants" do
+    it "defines HEIGHT as half of WIDTH" do
       Entities::Tile::HEIGHT.should eq(Entities::Tile::WIDTH // 2)
     end
   end

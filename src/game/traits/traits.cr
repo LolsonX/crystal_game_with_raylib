@@ -1,2 +1,3 @@
-require "./drawable"
+require "./world_drawable"
+require "./screen_drawable"
 require "./eventable"

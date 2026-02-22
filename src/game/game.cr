@@ -34,10 +34,13 @@ class Game
 
   private def draw
     CrystalRaylib::Drawing.clear_background(CrystalRaylib::Types::Color.new(red: 31, green: 31, blue: 31, alpha: 255))
+
     CrystalRaylib::Camera2D.with_mode_2d(camera) do
-      @layer_stack.each_with_trait(Traits::Drawable, &.draw)
+      @layer_stack.each_with_trait(Traits::WorldDrawable, &.draw)
       @layer_stack.each_with_trait(Traits::Eventable, &.emit)
       @layer_stack.each_with_trait(Traits::Eventable, &.process_events)
     end
+
+    @layer_stack.each_with_trait(Traits::ScreenDrawable, &.draw)
   end
 end

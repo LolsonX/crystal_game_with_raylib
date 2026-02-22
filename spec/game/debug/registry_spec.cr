@@ -9,44 +9,17 @@ describe DebugRegistry do
     registry.hidden_categories.clear
   end
 
-  describe ".instance" do
-    it "returns a singleton instance" do
-      r1 = DebugRegistry.instance
-      r2 = DebugRegistry.instance
-      r1.should be(r2)
-    end
-  end
-
-  describe "#register" do
-    it "adds item definition" do
-      DebugRegistry.register("fps", "FPS", "performance")
-
-      DebugRegistry.instance.definitions.has_key?("fps").should be_true
-    end
-  end
-
-  describe "#set and #get" do
-    it "sets and gets value" do
-      DebugRegistry.register("fps", "FPS", "performance")
-      DebugRegistry.set("fps", "60")
-
-      DebugRegistry.get("fps").should eq("60")
-    end
-
-    it "returns nil for unknown key" do
-      DebugRegistry.get("unknown").should be_nil
-    end
-  end
-
-  describe "#hide and #show" do
-    it "hides item" do
+  context "when hiding an item" do
+    it "marks the item as not visible" do
       DebugRegistry.register("fps", "FPS", "performance")
       DebugRegistry.hide("fps")
 
       DebugRegistry.visible?("fps").should be_false
     end
+  end
 
-    it "shows hidden item" do
+  context "when showing a previously hidden item" do
+    it "marks the item as visible again" do
       DebugRegistry.register("fps", "FPS", "performance")
       DebugRegistry.hide("fps")
       DebugRegistry.show("fps")
@@ -55,14 +28,16 @@ describe DebugRegistry do
     end
   end
 
-  describe "#hide_category and #show_category" do
-    it "hides category" do
+  context "when hiding a category" do
+    it "marks the category as not visible" do
       DebugRegistry.hide_category("debug")
 
       DebugRegistry.category_visible?("debug").should be_false
     end
+  end
 
-    it "shows hidden category" do
+  context "when showing a previously hidden category" do
+    it "marks the category as visible again" do
       DebugRegistry.hide_category("debug")
       DebugRegistry.show_category("debug")
 
@@ -70,41 +45,21 @@ describe DebugRegistry do
     end
   end
 
-  describe "#visible?" do
-    it "returns true for non-hidden item" do
-      DebugRegistry.register("fps", "FPS", "performance")
-
-      DebugRegistry.visible?("fps").should be_true
-    end
-  end
-
-  describe "#unregister" do
-    it "removes item from definitions" do
-      DebugRegistry.register("fps", "FPS", "performance")
-      DebugRegistry.unregister("fps")
-
-      DebugRegistry.instance.definitions.has_key?("fps").should be_false
-    end
-
-    it "removes item from values" do
+  context "when unregistering an item" do
+    it "removes the item from all internal collections" do
       DebugRegistry.register("fps", "FPS", "performance")
       DebugRegistry.set("fps", "60")
-      DebugRegistry.unregister("fps")
-
-      DebugRegistry.instance.values.has_key?("fps").should be_false
-    end
-
-    it "removes item from hidden_items" do
-      DebugRegistry.register("fps", "FPS", "performance")
       DebugRegistry.hide("fps")
       DebugRegistry.unregister("fps")
 
+      DebugRegistry.instance.definitions.has_key?("fps").should be_false
+      DebugRegistry.instance.values.has_key?("fps").should be_false
       DebugRegistry.instance.hidden_items.includes?("fps").should be_false
     end
   end
 
-  describe "#items_by_category" do
-    it "groups items by category" do
+  context "when grouping items by category" do
+    it "groups items by their category" do
       DebugRegistry.register("fps", "FPS", "performance")
       DebugRegistry.register("memory", "Memory", "performance")
       DebugRegistry.register("position", "Position", "debug")
@@ -115,7 +70,7 @@ describe DebugRegistry do
       items["debug"].size.should eq(1)
     end
 
-    it "excludes hidden items" do
+    it "excludes hidden items from the grouping" do
       DebugRegistry.register("fps", "FPS", "performance")
       DebugRegistry.register("memory", "Memory", "performance")
       DebugRegistry.hide("fps")

@@ -1,7 +1,7 @@
 require "../../../spec_helper"
 
 describe Events::Handlers::CallbackHandler do
-  describe "#handle" do
+  context "when handling an event" do
     it "executes the callback" do
       called = false
       handler = Events::Handlers::CallbackHandler.new(
@@ -13,7 +13,7 @@ describe Events::Handlers::CallbackHandler do
       called.should be_true
     end
 
-    it "returns true after handling" do
+    it "returns true to continue the handler chain" do
       handler = Events::Handlers::CallbackHandler.new(
         handler: ->(_event : Events::Base) { nil }
       )
@@ -23,7 +23,7 @@ describe Events::Handlers::CallbackHandler do
       result.should be_true
     end
 
-    it "receives the event as argument" do
+    it "receives the event as an argument" do
       received_event = nil
       handler = Events::Handlers::CallbackHandler.new(
         handler: ->(event : Events::Base) { received_event = event }

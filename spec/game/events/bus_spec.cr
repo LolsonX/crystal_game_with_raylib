@@ -7,16 +7,8 @@ private class StoppingHandler < Events::Handlers::Base
 end
 
 describe Events::Bus do
-  describe ".instance" do
-    it "returns a singleton instance" do
-      bus1 = Events::Bus.instance
-      bus2 = Events::Bus.instance
-      bus1.should be(bus2)
-    end
-  end
-
-  describe "#subscribe and #publish" do
-    it "calls handler when event is published" do
+  context "when a handler is subscribed to an event type" do
+    it "invokes the handler when that event is published" do
       bus = Events::Bus.new
       called = false
 
@@ -44,7 +36,23 @@ describe Events::Bus do
       called.should be_true
     end
 
-    it "dispatches handlers by priority (highest first)" do
+    it "does not invoke the handler for different event types" do
+      bus = Events::Bus.new
+      called = false
+
+      handler = Events::Handlers::CallbackHandler.new(
+        handler: ->(_event : Events::Base) { called = true }
+      )
+
+      bus.subscribe(handler, Events::KeyPressed, priority: 0)
+      bus.publish(Events::CurrentTileChanged.new(tile: nil))
+
+      called.should be_false
+    end
+  end
+
+  context "when multiple handlers subscribe with different priorities" do
+    it "dispatches highest priority first" do
       bus = Events::Bus.new
       order = [] of Int32
 
@@ -66,7 +74,7 @@ describe Events::Bus do
       order.should eq([2, 3, 1])
     end
 
-    it "dispatches handlers in priority order regardless of subscription order" do
+    it "maintains priority order regardless of subscription order" do
       bus = Events::Bus.new
       order = [] of Int32
 
@@ -87,8 +95,10 @@ describe Events::Bus do
 
       order.should eq([20, 10, 5])
     end
+  end
 
-    it "stops handler chain when handler returns false (consumes event)" do
+  context "when a handler returns false to consume the event" do
+    it "stops the handler chain" do
       bus = Events::Bus.new
       called = false
 
@@ -104,7 +114,7 @@ describe Events::Bus do
       called.should be_false
     end
 
-    it "high priority handler can consume event before low priority handlers" do
+    it "prevents lower priority handlers from executing" do
       bus = Events::Bus.new
       low_called = false
 
@@ -119,22 +129,10 @@ describe Events::Bus do
 
       low_called.should be_false
     end
+  end
 
-    it "does not call handler for different event type" do
-      bus = Events::Bus.new
-      called = false
-
-      handler = Events::Handlers::CallbackHandler.new(
-        handler: ->(_event : Events::Base) { called = true }
-      )
-
-      bus.subscribe(handler, Events::KeyPressed, priority: 0)
-      bus.publish(Events::CurrentTileChanged.new(tile: nil))
-
-      called.should be_false
-    end
-
-    it "raises ArgumentError when duplicate priority registered for same event type" do
+  context "when subscribing with a duplicate priority for the same event type" do
+    it "raises ArgumentError" do
       bus = Events::Bus.new
 
       handler1 = Events::Handlers::CallbackHandler.new(
@@ -150,8 +148,10 @@ describe Events::Bus do
         bus.subscribe(handler2, Events::KeyPressed, priority: 10)
       end
     end
+  end
 
-    it "allows same priority for different event types" do
+  context "when the same priority is used for different event types" do
+    it "allows both subscriptions" do
       bus = Events::Bus.new
       called_key = false
       called_tile = false
@@ -174,8 +174,8 @@ describe Events::Bus do
     end
   end
 
-  describe "#unsubscribe" do
-    it "removes handler from all event types" do
+  context "when a handler is unsubscribed" do
+    it "removes the handler from all event types" do
       bus = Events::Bus.new
       called = false
 

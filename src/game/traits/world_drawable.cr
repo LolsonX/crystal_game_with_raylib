@@ -1,5 +1,5 @@
 module Traits
-  module Drawable
+  module WorldDrawable
     abstract def draw
   end
 end
