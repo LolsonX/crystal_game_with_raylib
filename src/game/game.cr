@@ -7,6 +7,8 @@ require "./layers/layers"
 class Game
   property camera : CrystalRaylib::Types::Camera2D
   property layer_stack : Layers::Stack
+  TILES_PER_ROW = 64
+  TILES_PER_COLUMN = 64
 
   def initialize
     camera_offset = CrystalRaylib::Types::Vector2.new(x: (Window::WIDTH - Entities::Tile::WIDTH) / 2_f32, y: 0)
@@ -18,9 +20,10 @@ class Game
   end
 
   def populate_layer_stack
-    @layer_stack.push Layers::GameMap.new(width: 64, height: 64)
+    @layer_stack.push Layers::GameMap.new(width: TILES_PER_COLUMN, height: TILES_PER_ROW)
     @layer_stack.push Layers::Debug.new
     @layer_stack.push Layers::Input.new(camera: camera)
+    @layer_stack.push Layers::Camera.new(camera: camera, priority: 1)
   end
 
   def run
@@ -39,6 +42,7 @@ class Game
       @layer_stack.each_with_trait(Traits::WorldDrawable, &.draw)
       @layer_stack.each_with_trait(Traits::Eventable, &.emit)
       @layer_stack.each_with_trait(Traits::Eventable, &.process_events)
+      @layer_stack.each_with_trait(Traits::Updateable, &.update(CrystalRaylib::Timing.frame_time))
     end
 
     @layer_stack.each_with_trait(Traits::ScreenDrawable, &.draw)
