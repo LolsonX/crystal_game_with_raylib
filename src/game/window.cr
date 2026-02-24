@@ -1,4 +1,4 @@
 class Window
-  WIDTH  = 1920
-  HEIGHT = 1080
+  WIDTH  = 3840
+  HEIGHT = 2160
 end

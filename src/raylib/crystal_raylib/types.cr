@@ -29,7 +29,6 @@ module CrystalRaylib
 
       def update(x : Number, y : Number)
         @offset = Vector2.new(x: x.to_f32, y: y.to_f32)
-        puts @offset
       end
     end
   end
@@ -56,5 +55,9 @@ module CrystalRaylib
     WHITE       = Types::Color.new(red: 255, green: 255, blue: 255, alpha: 255)
     MAGENTA     = Types::Color.new(red: 255, green: 0, blue: 255, alpha: 255)
     RAY_WHITE   = Types::Color.new(red: 245, green: 245, blue: 245, alpha: 255)
+  end
+
+  module KeyboardKeys
+    F11 = 300
   end
 end

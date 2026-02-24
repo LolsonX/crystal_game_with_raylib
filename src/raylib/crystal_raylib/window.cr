@@ -20,5 +20,9 @@ module CrystalRaylib
         close_window()
       end
     end
+
+    def self.toggle_fullscreen
+      LibRaylib.toggle_fullscreen
+    end
   end
 end

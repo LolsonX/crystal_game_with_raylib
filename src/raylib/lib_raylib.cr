@@ -30,6 +30,7 @@ lib LibRaylib
   fun init_window = InitWindow(width : Int32, height : Int32, title : Pointer(UInt8))
   fun close_window = CloseWindow
   fun window_should_close = WindowShouldClose : Bool
+  fun toggle_fullscreen = ToggleFullscreen : Void
 
   # Drawing
   fun begin_drawing = BeginDrawing

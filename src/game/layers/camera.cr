@@ -45,7 +45,7 @@ module Layers
     end
 
     private def move_x(screen_position : CrystalRaylib::Types::Vector2)
-      if screen_position.x > 1920 - CAMERA_MOVEMENT_BORDER
+      if screen_position.x > Window::WIDTH - CAMERA_MOVEMENT_BORDER
         @x_direction = -1
       elsif screen_position.x < CAMERA_MOVEMENT_BORDER
         @x_direction = 1
@@ -55,7 +55,7 @@ module Layers
     end
 
     private def move_y(screen_position : CrystalRaylib::Types::Vector2)
-      if screen_position.y > 1080 - CAMERA_MOVEMENT_BORDER
+      if screen_position.y > Window::HEIGHT - CAMERA_MOVEMENT_BORDER
         @y_direction = -1
       elsif screen_position.y < CAMERA_MOVEMENT_BORDER
         @y_direction = 1
