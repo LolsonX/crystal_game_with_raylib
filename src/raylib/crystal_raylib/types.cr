@@ -18,13 +18,18 @@ module CrystalRaylib
       end
     end
 
-    struct Camera2D
+     class Camera2D
       getter offset : Vector2
       getter target : Vector2
       getter rotation : Float32
       getter zoom : Float32
 
       def initialize(@offset : Vector2, @target : Vector2, @rotation : Float32 = 0.0_f32, @zoom : Float32 = 1.0_f32)
+      end
+
+      def update(x : Number, y : Number)
+        @offset = Vector2.new(x: x.to_f32, y: y.to_f32)
+        puts @offset
       end
     end
   end

@@ -20,13 +20,13 @@ module CrystalRaylib
       end
     end
 
-    struct Camera2D
+    class Camera2D
       def to_lib : LibRaylib::Camera2D
         LibRaylib::Camera2D.new(offset: @offset.to_lib, target: @target.to_lib, rotation: @rotation, zoom: @zoom)
       end
 
       def self.from_lib(lib_camera : LibRaylib::Camera2D) : Camera2D
-        Camera2D.new(
+        new(
           offset: Vector2.from_lib(lib_camera.offset),
           target: Vector2.from_lib(lib_camera.target),
           rotation: lib_camera.rotation,
