@@ -1,6 +1,7 @@
 require "./base"
 require "./key_pressed"
 require "./mouse_position_changed"
+require "./mouse_wheel_moved"
 require "./current_tile_changed"
 require "./handlers/handlers"
 require "./bus"
