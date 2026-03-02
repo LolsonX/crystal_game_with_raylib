@@ -50,10 +50,12 @@ lib LibRaylib
   fun draw_line_ex = DrawLineEx(start_pos : Vector2, end_pos : Vector2, thickness : Float32, color : Color)
   fun draw_rectangle_lines = DrawRectangleLines(x : Int32, y : Int32, width : Int32, height : Int32, color : Color)
   fun draw_rectangle_lines_ex = DrawRectangleLinesEx(rec : Rectangle, line_thick : Float32, color : Color)
+
   # Input
   fun key_pressed = GetKeyPressed : Int32
   fun key_down? = IsKeyDown(key_code : Int32) : Bool
   fun mouse_position = GetMousePosition : Vector2
+  fun mouse_wheel_movement = GetMouseWheelMove : Float32
 
   # Text
   fun draw_fps = DrawFPS(x : Int32, y : Int32)

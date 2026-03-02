@@ -29,7 +29,15 @@ module CrystalRaylib
 
       def update(x : Number, y : Number)
         @offset = Vector2.new(x: x.to_f32, y: y.to_f32)
-        puts @offset
+      end
+
+      def update(zoom : Float32)
+        if zoom.zero?
+          puts ("Tried to set zoom to 0, operation discarded")
+          return
+        end
+
+        @zoom = zoom
       end
     end
   end

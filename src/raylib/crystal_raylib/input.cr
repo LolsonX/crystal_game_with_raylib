@@ -11,5 +11,9 @@ module CrystalRaylib
     def self.mouse_position : Types::Vector2
       Types::Vector2.from_lib LibRaylib.mouse_position
     end
+
+    def self.mouse_wheel_movement : Float32
+      LibRaylib.mouse_wheel_movement
+    end
   end
 end

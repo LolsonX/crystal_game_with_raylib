@@ -20,11 +20,18 @@ module Layers
 
     def register_event_handlers
       subscribe_handler(mouse_position_changed_handler, Events::MousePositionChanged)
+      subscribe_handler(mouse_wheel_movement_changed_handler, Events::MouseWheelMoved)
     end
 
     def mouse_position_changed_handler
       Events::Handlers::CallbackHandler.new(
         handler: ->(event : Events::Base) { on_mouse_position_changed(event) }
+      )
+    end
+
+    def mouse_wheel_movement_changed_handler
+      Events::Handlers::CallbackHandler.new(
+        handler: ->(event : Events::Base) { on_mouse_wheel_movement_changed(event) }
       )
     end
 
@@ -41,6 +48,13 @@ module Layers
         screen_position = event.new_position.screen_position
         move_x(screen_position)
         move_y(screen_position)
+      end
+    end
+
+    def on_mouse_wheel_movement_changed(event)
+      if event.is_a?(Events::MouseWheelMoved)
+        zoom = (camera.zoom + (event.mouse_movement.to_f32 / 4)).clamp(1_f32, 4_f32)
+        camera.update(zoom: zoom)
       end
     end
 
