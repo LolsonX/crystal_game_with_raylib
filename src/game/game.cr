@@ -4,12 +4,13 @@ require "./traits/traits"
 require "./events/events"
 require "./window"
 require "./entities/entity"
+require "./ui/ui"
 require "./layers/layers"
 
 class Game
   property camera : CrystalRaylib::Types::Camera2D
   property layer_stack : Layers::Stack
-  TILES_PER_ROW = 64
+  TILES_PER_ROW    = 64
   TILES_PER_COLUMN = 64
 
   def initialize
@@ -26,6 +27,12 @@ class Game
     @layer_stack.push Layers::Debug.new
     @layer_stack.push Layers::Input.new(camera: camera)
     @layer_stack.push Layers::Camera.new(camera: camera, priority: 1)
+    btn = UI::Button.new(x: 300, y: 300, width: 150, height: 50)
+    btn.on_click = -> { puts "clicked!" }
+    menu = Layers::Menu.new
+    menu.elements << btn
+    menu.visible = true
+    @layer_stack.push menu
   end
 
   def run

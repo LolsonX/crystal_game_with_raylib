@@ -4,9 +4,9 @@ module Layers
     include Traits::Updateable
 
     CAMERA_MOVEMENT_BORDER = 50
-    MAX_X_OFFSET = Entities::Tile::WIDTH * Game::TILES_PER_COLUMN / 2
-    MAX_Y_OFFSET = Entities::Tile::HEIGHT * Game::TILES_PER_ROW
-    CAMERA_SPEED = 1500
+    MAX_X_OFFSET           = Entities::Tile::WIDTH * Game::TILES_PER_COLUMN / 2
+    MAX_Y_OFFSET           = Entities::Tile::HEIGHT * Game::TILES_PER_ROW
+    CAMERA_SPEED           = 1500
 
     private property x_direction : Int32
     private property y_direction : Int32

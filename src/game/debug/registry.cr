@@ -9,11 +9,10 @@ module Debug
     getter hidden_items : Set(String)
     getter hidden_categories : Set(String)
 
-
     singleton_methods register, set, get, hide,
-                      show, visible?, hide_category,
-                      show_category, category_visible, unregister,
-                      items_by_category
+      show, visible?, hide_category,
+      show_category, category_visible, unregister,
+      items_by_category
 
     def initialize
       @definitions = Hash(String, ItemDefinition).new

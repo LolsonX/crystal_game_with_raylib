@@ -18,7 +18,7 @@ module CrystalRaylib
       end
     end
 
-     class Camera2D
+    class Camera2D
       getter offset : Vector2
       getter target : Vector2
       getter rotation : Float32
@@ -33,7 +33,7 @@ module CrystalRaylib
 
       def update(zoom : Float32)
         if zoom.zero?
-          puts ("Tried to set zoom to 0, operation discarded")
+          puts("Tried to set zoom to 0, operation discarded")
           return
         end
 
