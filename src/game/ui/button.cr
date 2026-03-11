@@ -25,7 +25,7 @@ class UI::Button < UI::Element
             when :pressed then @pressed_color
             else               @background_color
             end
-    puts "Button x #{x}, y #{y}"
+
     CrystalRaylib::Shapes.draw_rectangle(x, y, width, height, color)
     if @border_thickness > 0
       CrystalRaylib::Shapes.draw_rectangle_lines_ex(x, y, width, height, @border_thickness, @border_color)

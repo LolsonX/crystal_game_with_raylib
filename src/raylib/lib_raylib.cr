@@ -56,6 +56,8 @@ lib LibRaylib
   fun key_down? = IsKeyDown(key_code : Int32) : Bool
   fun mouse_position = GetMousePosition : Vector2
   fun mouse_wheel_movement = GetMouseWheelMove : Float32
+  fun mouse_button_pressed = IsMouseButtonPressed(button : Int32) : Bool
+  fun mouse_button_down = IsMouseButtonDown(button : Int32) : Bool
 
   # Text
   fun draw_fps = DrawFPS(x : Int32, y : Int32)
