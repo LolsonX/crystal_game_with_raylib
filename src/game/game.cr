@@ -1,3 +1,5 @@
+require "./macros/macros"
+require "./settings/settings"
 require "./traits/traits"
 require "./events/events"
 require "./window"
