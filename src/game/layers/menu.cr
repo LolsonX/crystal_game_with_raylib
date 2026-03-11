@@ -35,12 +35,28 @@ module Layers
 
     private def on_mouse_pressed(event : Events::Base) : Bool
       return true unless visible? && event.is_a?(Events::MousePressed)
+      handle_click(event.screen_x, event.screen_y)
+    end
 
+    private def on_mouse_position_changed(event : Events::Base) : Bool
+      return true unless visible? && event.is_a?(Events::MousePositionChanged)
+      handle_hover(event.new_position.screen_x.to_i, event.new_position.screen_y.to_i)
+      true
+    end
+
+    private def handle_click(mouse_x : Int32, mouse_y : Int32) : Bool
       @elements.each do |element|
-        if element.contains?(event.screen_x, event.screen_y)
-          element.update(event.screen_x, event.screen_y, clicked: true)
+        if element.contains?(mouse_x, mouse_y)
+          element.update(mouse_x, mouse_y, clicked: true)
           return false
         end
+      end
+      true
+    end
+
+    private def handle_hover(mouse_x : Int32, mouse_y : Int32) : Bool
+      @elements.each do |element|
+        element.update(mouse_x, mouse_y, clicked: false)
       end
       true
     end
@@ -49,15 +65,6 @@ module Layers
       @mouse_position_handler ||= Events::Handlers::CallbackHandler.new(
         handler: ->(event : Events::Base) { on_mouse_position_changed(event) }
       )
-    end
-
-    private def on_mouse_position_changed(event : Events::Base) : Bool
-      return true unless visible? && event.is_a?(Events::MousePositionChanged)
-
-      @elements.each do |element|
-        element.update(event.new_position.screen_x.to_i, event.new_position.screen_y.to_i, clicked: false)
-      end
-      true
     end
   end
 end

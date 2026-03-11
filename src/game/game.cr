@@ -27,7 +27,7 @@ class Game
     @layer_stack.push Layers::Debug.new
     @layer_stack.push Layers::Input.new(camera: camera)
     @layer_stack.push Layers::Camera.new(camera: camera, priority: 1)
-    btn = UI::Button.new(x: 300, y: 300, width: 150, height: 50)
+    btn = UI::Button.new(x: 300, y: 300, width: 150, height: 50, text: "Life is hard")
     btn.on_click = -> { puts "clicked!" }
     menu = Layers::Menu.new
     menu.elements << btn

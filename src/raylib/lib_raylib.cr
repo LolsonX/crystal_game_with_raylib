@@ -62,6 +62,7 @@ lib LibRaylib
   # Text
   fun draw_fps = DrawFPS(x : Int32, y : Int32)
   fun draw_text = DrawText(text : Pointer(UInt8), x : Int32, y : Int32, font_size : Int32, color : Color)
+  fun measure_text = MeasureText(text : Pointer(UInt8), font_size : Int32) : Int32
 
   # Timing
   fun set_target_fps = SetTargetFPS(fps : Int32)
