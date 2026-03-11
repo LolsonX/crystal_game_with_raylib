@@ -4,7 +4,7 @@ module Layers
     include Traits::Eventable
     include Traits::Updateable
 
-    property visible : Bool = false
+    property? visible : Bool = false
     property elements : Array(UI::Element)
 
     def initialize(@priority : Int32 = 100)
@@ -14,14 +14,16 @@ module Layers
     end
 
     def draw : Nil
-      return unless visible
+      return unless visible?
       @elements.each(&.draw)
     end
 
     def update(dt : Float32)
-      return unless visible
+      return unless visible?
       @elements.each do |element|
-        element.update_timers(dt) if element.responds_to?(:update_timers)
+        if element.is_a?(Traits::TimerUpdatable)
+          element.update_timers(dt)
+        end
       end
     end
 
@@ -32,8 +34,7 @@ module Layers
     end
 
     private def on_mouse_pressed(event : Events::Base) : Bool
-      return true unless visible
-      return true unless event.is_a?(Events::MousePressed)
+      return true unless visible? && event.is_a?(Events::MousePressed)
 
       @elements.each do |element|
         if element.contains?(event.screen_x, event.screen_y)
@@ -51,8 +52,7 @@ module Layers
     end
 
     private def on_mouse_position_changed(event : Events::Base) : Bool
-      return true unless visible
-      return true unless event.is_a?(Events::MousePositionChanged)
+      return true unless visible? && event.is_a?(Events::MousePositionChanged)
 
       @elements.each do |element|
         element.update(event.new_position.screen_x.to_i, event.new_position.screen_y.to_i, clicked: false)

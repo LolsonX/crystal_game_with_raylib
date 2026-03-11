@@ -1,10 +1,12 @@
 class UI::Button < UI::Element
   include Traits::Clickable
+  include Traits::TimerUpdatable
 
   PRESSED_DURATION = 0.1_f32
 
   property hover_color : CrystalRaylib::Types::Color
   property pressed_color : CrystalRaylib::Types::Color
+  property mouse_x, mouse_y : Int32
 
   def initialize(
     x : Int32 = 0,
@@ -20,6 +22,8 @@ class UI::Button < UI::Element
     super(x, y, width, height, background_color, border_color, border_thickness)
     @state = :normal
     @pressed_timer = 0.0_f32
+    @mouse_x = -1
+    @mouse_y = -1
   end
 
   def draw : Nil
@@ -36,6 +40,8 @@ class UI::Button < UI::Element
   end
 
   def update(mouse_x : Int32, mouse_y : Int32, clicked : Bool) : Nil
+    @mouse_x = mouse_x
+    @mouse_y = mouse_y
     if contains?(mouse_x, mouse_y)
       if clicked
         @state = :pressed
@@ -50,6 +56,10 @@ class UI::Button < UI::Element
   end
 
   def update_timers(dt : Float32)
-    @pressed_timer -= dt if @pressed_timer > 0
+    if @pressed_timer > 0
+      @pressed_timer -= dt
+    else
+      update(mouse_x: @mouse_x, mouse_y: @mouse_y, clicked: false)
+    end
   end
 end
