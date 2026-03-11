@@ -1,6 +1,8 @@
 class UI::Button < UI::Element
   include Traits::Clickable
 
+  PRESSED_DURATION = 0.1_f32
+
   property hover_color : CrystalRaylib::Types::Color
   property pressed_color : CrystalRaylib::Types::Color
 
@@ -17,6 +19,7 @@ class UI::Button < UI::Element
   )
     super(x, y, width, height, background_color, border_color, border_thickness)
     @state = :normal
+    @pressed_timer = 0.0_f32
   end
 
   def draw : Nil
@@ -34,10 +37,19 @@ class UI::Button < UI::Element
 
   def update(mouse_x : Int32, mouse_y : Int32, clicked : Bool) : Nil
     if contains?(mouse_x, mouse_y)
-      @state = clicked ? :pressed : :hover
-      trigger_click if clicked
+      if clicked
+        @state = :pressed
+        @pressed_timer = PRESSED_DURATION
+        trigger_click
+      elsif @pressed_timer <= 0
+        @state = :hover
+      end
     else
       @state = :normal
     end
+  end
+
+  def update_timers(dt : Float32)
+    @pressed_timer -= dt if @pressed_timer > 0
   end
 end

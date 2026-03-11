@@ -2,6 +2,7 @@ module Layers
   class Menu < Base
     include Traits::ScreenDrawable
     include Traits::Eventable
+    include Traits::Updateable
 
     property visible : Bool = false
     property elements : Array(UI::Element)
@@ -15,6 +16,13 @@ module Layers
     def draw : Nil
       return unless visible
       @elements.each(&.draw)
+    end
+
+    def update(dt : Float32)
+      return unless visible
+      @elements.each do |element|
+        element.update_timers(dt) if element.responds_to?(:update_timers)
+      end
     end
 
     private def mouse_pressed_handler : Events::Handlers::CallbackHandler
