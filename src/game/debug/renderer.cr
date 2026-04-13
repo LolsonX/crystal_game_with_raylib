@@ -22,29 +22,29 @@ module Debug
           draw_item(definition, value)
         end
 
-        @current_y += config.location.box_padding * 2 + config.location.category_spacing
+        @current_y += config.box.box_padding * 2 + config.box.spacing
       end
     end
 
     private def draw_background : Void
       CrystalRaylib::Shapes.draw_rectangle(
-        x: config.location.screen_position.x.to_i,
-        y: config.location.screen_position.y.to_i,
-        width: config.dimensions.width,
-        height: config.dimensions.height,
+        x: config.box.position.x.to_i,
+        y: config.box.position.y.to_i,
+        width: config.box.dimension.width.to_i,
+        height: config.box.dimension.height.to_i,
         color: config.style.background_color
       )
     end
 
     private def calculate_category_height(items : Array({Registry::ItemDefinition, String?})) : Int32
       item_count = items.size + 1
-      (item_count * config.line_height) + (config.location.box_padding * 2)
+      (item_count * config.line_height) + (config.box.box_padding * 2)
     end
 
     private def draw_category_box(y : Int32, height : Int32) : Void
-      box_x = config.location.screen_position.x.to_i + config.location.box_padding
-      box_y = y - config.location.box_padding
-      box_width = config.dimensions.width - (config.location.box_padding * 2)
+      box_x = config.box.position.x.to_i + config.box.box_padding
+      box_y = y - config.box.box_padding
+      box_width = config.box.dimension.width.to_i - (config.box.box_padding * 2)
 
       CrystalRaylib::Shapes.draw_rectangle_lines_ex(
         x: box_x,

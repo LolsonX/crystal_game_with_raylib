@@ -2,6 +2,7 @@ require "./macros/macros"
 require "./settings/settings"
 require "./traits/traits"
 require "./events/events"
+require "./core/core"
 require "./window"
 require "./entities/entity"
 require "./ui/ui"
@@ -18,6 +19,7 @@ class Game
     camera_target = CrystalRaylib::Types::Vector2.new(x: 0.0_f32, y: 0.0_f32)
     @camera = CrystalRaylib::Types::Camera2D.new(offset: camera_offset, target: camera_target)
     @layer_stack = Layers::Stack.new
+    @window_close_requested
     populate_layer_stack
     Events::Bus.subscribe(Events::Handlers::KeyPressed.new, Events::KeyPressed, priority: 0)
   end
@@ -27,18 +29,15 @@ class Game
     @layer_stack.push Layers::Debug.new
     @layer_stack.push Layers::Input.new(camera: camera)
     @layer_stack.push Layers::Camera.new(camera: camera, priority: 1)
-    btn = UI::Button.new(x: 300, y: 300, width: 150, height: 50, text: "Life is hard")
-    btn.on_click = -> { puts "clicked!" }
-    menu = Layers::Menu.new
-    menu.elements << btn
-    menu.visible = true
-    @layer_stack.push menu
+
+    @layer_stack.push build_menu
   end
 
   def run
     CrystalRaylib::Window.with_window(Window::WIDTH, Window::HEIGHT, "Hello from crystal".to_unsafe) do
       CrystalRaylib::Timing.target_fps = 60
-      until CrystalRaylib::Window.window_should_close
+      CrystalRaylib::Input.exit_key = -1
+      until CrystalRaylib::Window.window_should_close || @window_close_requested
         CrystalRaylib::Drawing.draw { draw }
       end
     end
@@ -55,5 +54,31 @@ class Game
     end
 
     @layer_stack.each_with_trait(Traits::ScreenDrawable, &.draw)
+  end
+
+  private def build_menu
+    Layers::Menu.new.tap do |menu|
+      exit_btn = UI::Button.new(
+        location: Core::Geometry::Location.new(x: 895.0_f32, y: 605.0_f32),
+        dimension: Core::Geometry::Dimension.new(width: 150.0_f32, height: 50.0_f32),
+        text: "Exit"
+      )
+      exit_btn.on_click = -> { @window_close_requested = true }
+      options_btn = UI::Button.new(
+        location: Core::Geometry::Location.new(x: 895.0_f32, y: 560.0_f32),
+        dimension: Core::Geometry::Dimension.new(width: 150.0_f32, height: 50.0_f32),
+        text: "Options"
+      )
+      options_btn.on_click = -> { puts "NO TINEKRING" }
+      resume_btn = UI::Button.new(
+        location: Core::Geometry::Location.new(x: 895.0_f32, y: 515.0_f32),
+        dimension: Core::Geometry::Dimension.new(width: 150.0_f32, height: 50.0_f32),
+        text: "Resume"
+      )
+      resume_btn.on_click = -> { menu.visible = false }
+      menu.elements << resume_btn
+      menu.elements << options_btn
+      menu.elements << exit_btn
+    end
   end
 end

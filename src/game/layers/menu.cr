@@ -11,6 +11,7 @@ module Layers
       @elements = [] of UI::Element
       subscribe_handler(mouse_pressed_handler, Events::MousePressed)
       subscribe_handler(mouse_position_handler, Events::MousePositionChanged)
+      subscribe_handler(key_pressed_handler, Events::KeyPressed)
     end
 
     def draw : Nil
@@ -46,7 +47,7 @@ module Layers
 
     private def handle_click(mouse_x : Int32, mouse_y : Int32) : Bool
       @elements.each do |element|
-        if element.contains?(mouse_x, mouse_y)
+        if element.contains?(mouse_x.to_f32, mouse_y.to_f32)
           element.update(mouse_x, mouse_y, clicked: true)
           return false
         end
@@ -65,6 +66,20 @@ module Layers
       @mouse_position_handler ||= Events::Handlers::CallbackHandler.new(
         handler: ->(event : Events::Base) { on_mouse_position_changed(event) }
       )
+    end
+
+    private def key_pressed_handler
+      @key_pressed_handler ||= Events::Handlers::CallbackHandler.new(
+        handler: ->(event : Events::Base) { on_key_pressed(event) }
+      )
+    end
+
+    private def on_key_pressed(event)
+      if event.is_a? Events::KeyPressed
+        if event.key == 256
+          @visible = !@visible
+        end
+      end
     end
   end
 end

@@ -15,6 +15,7 @@ module Layers
       emit_mouse_position_changed
       emit_mouse_wheel_moved
       emit_mouse_clicks
+      emit_key_pressed
     end
 
     private def emit_mouse_clicks
@@ -59,6 +60,12 @@ module Layers
 
     private def build_mouse_wheel_moved_event(mouse_movement)
       Events::MouseWheelMoved.build_from(mouse_movement)
+    end
+
+    private def emit_key_pressed
+      until (key = CrystalRaylib::Input.pressed_key).zero?
+        publish_event(Events::KeyPressed.new(key: key))
+      end
     end
   end
 end

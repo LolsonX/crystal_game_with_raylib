@@ -8,28 +8,25 @@ class UI::Button < UI::Element
   property pressed_color : CrystalRaylib::Types::Color
 
   def initialize(
-    x : Int32 = 0,
-    y : Int32 = 0,
-    width : Int32 = 120,
-    height : Int32 = 40,
-    background_color : CrystalRaylib::Types::Color = CrystalRaylib::Colors::DARK_GRAY,
+    location : Core::Geometry::Location = Core::Geometry::Location.new(x: 0.0_f32, y: 0.0_f32),
+    dimension : Core::Geometry::Dimension = Core::Geometry::Dimension.new(width: 120.0_f32, height: 40.0_f32),
+    style : Core::Styles::Element = Core::Styles::Element.new,
     @hover_color : CrystalRaylib::Types::Color = CrystalRaylib::Colors::GRAY,
     @pressed_color : CrystalRaylib::Types::Color = CrystalRaylib::Colors::SKY_BLUE,
-    border_color : CrystalRaylib::Types::Color = CrystalRaylib::Colors::WHITE,
-    border_thickness : Float32 = 2.0_f32,
     @text : String? = nil,
     @font_size : Int32 = 18,
-    @text_color : CrystalRaylib::Types::Color = CrystalRaylib::Colors::WHITE
+    @text_color : CrystalRaylib::Types::Color = CrystalRaylib::Colors::WHITE,
   )
-    final_width = width
+    final_dimension = dimension
 
     if text = @text
-      text_width = CrystalRaylib::Text.measure(text, @font_size)
-      padding = @font_size * 2
-      final_width = [width, text_width + padding].max
+      text_width = CrystalRaylib::Text.measure(text, @font_size).to_f32
+      padding = (@font_size * 2).to_f32
+      final_width = [dimension.width, text_width + padding].max
+      final_dimension = Core::Geometry::Dimension.new(width: final_width, height: dimension.height)
     end
 
-    super(x, y, final_width, height, background_color, border_color, border_thickness)
+    super(location, final_dimension, style)
     @state = :normal
     @pressed_timer = 0.0_f32
     @mouse_in_bounds = false
@@ -40,7 +37,7 @@ class UI::Button < UI::Element
   def draw : Nil
     color = select_color
 
-    CrystalRaylib::Shapes.draw_rectangle(x, y, width, height, color)
+    CrystalRaylib::Shapes.draw_rectangle(x.to_i32, y.to_i32, width.to_i32, height.to_i32, color)
     draw_border
 
     if @text
@@ -49,7 +46,7 @@ class UI::Button < UI::Element
   end
 
   def update(mouse_x : Int32, mouse_y : Int32, clicked : Bool) : Nil
-    @mouse_in_bounds = contains?(mouse_x, mouse_y)
+    @mouse_in_bounds = contains?(mouse_x.to_f32, mouse_y.to_f32)
     @hover_mouse_x = mouse_x
     @hover_mouse_y = mouse_y
 
@@ -79,15 +76,17 @@ class UI::Button < UI::Element
     when :pressed
       @pressed_color
     else
-      @background_color
+      style.background_color
     end
   end
 
   private def draw_text
-    text_width = CrystalRaylib::Text.measure(@text.not_nil!, @font_size)
-    x_center = (x + width / 2 - text_width / 2).to_i32
-    y_center = (y + (height - @font_size) / 2).to_i32
-    CrystalRaylib::Text.draw_text(@text.not_nil!, x_center, y_center, @font_size, @text_color)
+    if text = @text
+      text_width = CrystalRaylib::Text.measure(text, @font_size)
+      x_center = (x + width / 2 - text_width / 2).to_i32
+      y_center = (y + (height - @font_size) / 2).to_i32
+      CrystalRaylib::Text.draw_text(text, x_center, y_center, @font_size, @text_color)
+    end
   end
 
   def update_timers(dt : Float32)

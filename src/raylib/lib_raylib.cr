@@ -58,6 +58,7 @@ lib LibRaylib
   fun mouse_wheel_movement = GetMouseWheelMove : Float32
   fun mouse_button_pressed = IsMouseButtonPressed(button : Int32) : Bool
   fun mouse_button_down = IsMouseButtonDown(button : Int32) : Bool
+  fun set_exit_key = SetExitKey(key : Int32)
 
   # Text
   fun draw_fps = DrawFPS(x : Int32, y : Int32)

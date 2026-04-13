@@ -25,5 +25,9 @@ module CrystalRaylib
     def self.mouse_button_down?(button : Int32) : Bool
       LibRaylib.mouse_button_down(button)
     end
+
+    def self.exit_key=(key : Int32)
+      LibRaylib.set_exit_key(key: key)
+    end
   end
 end
