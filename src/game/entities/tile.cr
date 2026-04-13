@@ -1,5 +1,3 @@
-require "../core/core"
-
 module Entities
   class Tile
     alias Vector2 = CrystalRaylib::Types::Vector2

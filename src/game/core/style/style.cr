@@ -1,4 +1,3 @@
-require "../../../raylib/crystal_raylib"
 require "./fill"
 require "./border"
 require "./text"

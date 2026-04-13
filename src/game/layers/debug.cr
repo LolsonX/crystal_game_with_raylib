@@ -1,5 +1,3 @@
-require "../debug"
-
 module Layers
   class Debug < Base
     include Traits::ScreenDrawable

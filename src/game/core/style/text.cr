@@ -1,5 +1,3 @@
-require "../../../raylib/crystal_raylib"
-
 module Core
   module Styles
     struct Text

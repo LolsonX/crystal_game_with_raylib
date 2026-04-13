@@ -1,6 +1,3 @@
-require "../window"
-require "../core/core"
-
 module Debug
   struct Config
     getter box : Core::Geometry::Box
