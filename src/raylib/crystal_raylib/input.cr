@@ -22,6 +22,10 @@ module CrystalRaylib
       LibRaylib.mouse_button_pressed(button)
     end
 
+    def self.mouse_button_released?(button : Int32) : Bool
+      LibRaylib.mouse_button_released(button)
+    end
+
     def self.mouse_button_down?(button : Int32) : Bool
       LibRaylib.mouse_button_down(button)
     end

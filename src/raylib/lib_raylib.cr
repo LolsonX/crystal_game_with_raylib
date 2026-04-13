@@ -30,6 +30,8 @@ lib LibRaylib
   fun init_window = InitWindow(width : Int32, height : Int32, title : Pointer(UInt8))
   fun close_window = CloseWindow
   fun window_should_close = WindowShouldClose : Bool
+  fun toggle_fullscreen = ToggleFullscreen
+  fun set_window_size = SetWindowSize(width : Int32, height : Int32)
 
   # Drawing
   fun begin_drawing = BeginDrawing
@@ -57,6 +59,7 @@ lib LibRaylib
   fun mouse_position = GetMousePosition : Vector2
   fun mouse_wheel_movement = GetMouseWheelMove : Float32
   fun mouse_button_pressed = IsMouseButtonPressed(button : Int32) : Bool
+  fun mouse_button_released = IsMouseButtonReleased(button : Int32) : Bool
   fun mouse_button_down = IsMouseButtonDown(button : Int32) : Bool
   fun set_exit_key = SetExitKey(key : Int32)
 

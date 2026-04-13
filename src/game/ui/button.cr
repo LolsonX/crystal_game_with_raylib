@@ -6,6 +6,7 @@ class UI::Button < UI::Element
 
   property hover_color : CrystalRaylib::Types::Color
   property pressed_color : CrystalRaylib::Types::Color
+  property text : String?
 
   def initialize(
     location : Core::Geometry::Location = Core::Geometry::Location.new(x: 0.0_f32, y: 0.0_f32),

@@ -15,6 +15,7 @@ module Layers
       emit_mouse_position_changed
       emit_mouse_wheel_moved
       emit_mouse_clicks
+      emit_mouse_released
       emit_key_pressed
     end
 
@@ -27,6 +28,16 @@ module Layers
           screen_y: pos.y.to_i,
           world_x: world_pos.x,
           world_y: world_pos.y
+        ))
+      end
+    end
+
+    private def emit_mouse_released
+      if CrystalRaylib::Input.mouse_button_released?(CrystalRaylib::Input::LEFT_BUTTON)
+        pos = CrystalRaylib::Input.mouse_position
+        publish_event(Events::MouseReleased.new(
+          screen_x: pos.x.to_i,
+          screen_y: pos.y.to_i
         ))
       end
     end
