@@ -7,11 +7,22 @@ module Layers
     property? visible : Bool = false
     property elements : Array(UI::Element)
 
-    def initialize(@priority : Int32 = 100)
+    def initialize(@priority : Int32 = 100, @stack : Stack? = nil)
       @elements = [] of UI::Element
       subscribe_handler(mouse_pressed_handler, Events::MousePressed)
       subscribe_handler(mouse_position_handler, Events::MousePositionChanged)
       subscribe_handler(key_pressed_handler, Events::KeyPressed)
+    end
+
+    def visible=(value : Bool)
+      old_visible = @visible
+      @visible = value
+      return if old_visible == value
+      if value
+        @stack.try(&.block_below_priority(@priority))
+      else
+        @stack.try(&.unblock_all)
+      end
     end
 
     def draw : Nil
@@ -77,7 +88,7 @@ module Layers
     private def on_key_pressed(event)
       if event.is_a? Events::KeyPressed
         if event.key == 256
-          @visible = !@visible
+          self.visible = !@visible
         end
       end
     end

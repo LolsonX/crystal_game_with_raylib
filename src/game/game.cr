@@ -50,14 +50,14 @@ class Game
       @layer_stack.each_with_trait(Traits::WorldDrawable, &.draw)
       @layer_stack.each_with_trait(Traits::Eventable, &.emit)
       @layer_stack.each_with_trait(Traits::Eventable, &.process_events)
-      @layer_stack.each_with_trait(Traits::Updateable, &.update(CrystalRaylib::Timing.frame_time))
+      @layer_stack.each_with_trait_unblocked(Traits::Updateable, &.update(CrystalRaylib::Timing.frame_time))
     end
 
     @layer_stack.each_with_trait(Traits::ScreenDrawable, &.draw)
   end
 
   private def build_menu
-    Layers::Menu.new.tap do |menu|
+    Layers::Menu.new(priority: 100, stack: @layer_stack).tap do |menu|
       exit_btn = UI::Button.new(
         location: Core::Geometry::Location.new(x: 895.0_f32, y: 605.0_f32),
         dimension: Core::Geometry::Dimension.new(width: 150.0_f32, height: 50.0_f32),

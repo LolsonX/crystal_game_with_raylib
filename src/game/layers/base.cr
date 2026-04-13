@@ -1,6 +1,7 @@
 module Layers
   class Base
     getter priority : Int32
+    property? blocked : Bool = false
 
     def initialize(@priority : Int32 = 0)
     end
