@@ -12,6 +12,14 @@ module CrystalRaylib
       LibRaylib.window_should_close
     end
 
+    def self.toggle_fullscreen
+      LibRaylib.toggle_fullscreen
+    end
+
+    def self.set_window_size(width : Int32, height : Int32)
+      LibRaylib.set_window_size(width, height)
+    end
+
     def self.with_window(width : Int32, height : Int32, title : Pointer(UInt8), &)
       init_window(width, height, title)
       begin

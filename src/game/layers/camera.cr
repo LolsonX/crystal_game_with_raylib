@@ -4,9 +4,8 @@ module Layers
     include Traits::Updateable
 
     CAMERA_MOVEMENT_BORDER = 50
-    MAX_X_OFFSET = Entities::Tile::WIDTH * Game::TILES_PER_COLUMN / 2
-    MAX_Y_OFFSET = Entities::Tile::HEIGHT * Game::TILES_PER_ROW
-    CAMERA_SPEED = 1500
+    MAX_X_OFFSET           = Entities::Tile::WIDTH * Game::TILES_PER_COLUMN / 2
+    MAX_Y_OFFSET           = Entities::Tile::HEIGHT * Game::TILES_PER_ROW
 
     private property x_direction : Int32
     private property y_direction : Int32
@@ -36,14 +35,21 @@ module Layers
     end
 
     def update(dt : Float32)
+      if blocked?
+        @x_direction = 0
+        @y_direction = 0
+        return
+      end
+      speed = Settings::Registry.instance.get_float("camera_speed", 1500.0_f32)
       if x_direction != 0 || y_direction != 0
-        offset_x = (offset.x + x_direction * CAMERA_SPEED * dt).clamp(-MAX_X_OFFSET, MAX_X_OFFSET)
-        offset_y = (offset.y + y_direction * CAMERA_SPEED * dt).clamp(-MAX_Y_OFFSET, 0)
+        offset_x = (offset.x + x_direction * speed * dt).clamp(-MAX_X_OFFSET, MAX_X_OFFSET)
+        offset_y = (offset.y + y_direction * speed * dt).clamp(-MAX_Y_OFFSET, 0)
         camera.update(x: offset_x, y: offset_y)
       end
     end
 
     def on_mouse_position_changed(event)
+      return if blocked?
       if event.is_a?(Events::MousePositionChanged)
         screen_position = event.new_position.screen_position
         move_x(screen_position)
@@ -52,6 +58,7 @@ module Layers
     end
 
     def on_mouse_wheel_movement_changed(event)
+      return if blocked?
       if event.is_a?(Events::MouseWheelMoved)
         zoom = (camera.zoom + (event.mouse_movement.to_f32 / 4)).clamp(1_f32, 4_f32)
         camera.update(zoom: zoom)

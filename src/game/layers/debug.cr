@@ -1,5 +1,3 @@
-require "../debug"
-
 module Layers
   class Debug < Base
     include Traits::ScreenDrawable
@@ -28,12 +26,15 @@ module Layers
 
     def draw
       update_fps
-      @renderer.render(::Debug::Registry.items_by_category)
+      if @visible
+        @renderer.render(::Debug::Registry.items_by_category)
+      end
     end
 
     def register_handlers
       subscribe_handler(mouse_input_handler, Events::MousePositionChanged)
       subscribe_handler(tile_change_handler, Events::CurrentTileChanged)
+      subscribe_handler(key_pressed_handler, Events::KeyPressed)
     end
 
     private def update_fps
@@ -72,6 +73,20 @@ module Layers
           ::Debug::Registry.set("tile", "#{tile.x}, #{tile.y}")
         else
           ::Debug::Registry.set("tile", "None")
+        end
+      end
+    end
+
+    def key_pressed_handler : Events::Handlers::CallbackHandler
+      @key_pressed_handler ||= Events::Handlers::CallbackHandler.new(
+        handler: ->(event : Events::Base) { on_key_pressed(event) }
+      )
+    end
+
+    private def on_key_pressed(event : Events::Base)
+      if event.is_a? Events::KeyPressed
+        if event.key == 293
+          @visible = !@visible
         end
       end
     end

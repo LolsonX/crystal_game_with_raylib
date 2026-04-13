@@ -12,17 +12,7 @@ module Events
       @@instance = nil
     end
 
-    def self.publish(event : Events::Base)
-      instance.publish(event)
-    end
-
-    def self.subscribe(handler : Handlers::Base, event_type : Class, priority : Int32 = 0)
-      instance.subscribe(handler, event_type, priority)
-    end
-
-    def self.unsubscribe(handler : Handlers::Base)
-      instance.unsubscribe(handler)
-    end
+    singleton_methods publish, subscribe, unsubscribe
 
     def initialize
       @handlers = Hash(String, Array(HandlerEntry)).new { |hsh, key| hsh[key] = [] of HandlerEntry }

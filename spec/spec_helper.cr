@@ -78,7 +78,7 @@ module CrystalRaylib
       Types::Vector2.new(x: vector.x - camera.offset.x, y: vector.y - camera.offset.y)
     end
 
-    def self.with_mode_2d(camera : Types::Camera2D, &block)
+    def self.with_mode_2d(camera : Types::Camera2D, &)
       yield
     end
   end
@@ -97,7 +97,7 @@ module CrystalRaylib
   end
 
   module Drawing
-    def self.draw(&block)
+    def self.draw(&)
       yield
     end
 
@@ -116,7 +116,7 @@ module CrystalRaylib
       @@window_should_close = value
     end
 
-    def self.with_window(width : Int32, height : Int32, title : Pointer(UInt8), &block)
+    def self.with_window(width : Int32, height : Int32, title : Pointer(UInt8), &)
       yield
     end
   end

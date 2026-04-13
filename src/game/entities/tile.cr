@@ -1,26 +1,30 @@
 module Entities
   class Tile
     alias Vector2 = CrystalRaylib::Types::Vector2
-    alias Color = CrystalRaylib::Types::Color
 
     property x : Int32
     property y : Int32
-
-    @triangles : Array(Array(Vector2))?
-    @outline : Array(Array(Vector2))?
-    property color : CrystalRaylib::Types::Color
+    property fill_color : Core::Styles::Fill
+    property outline : Core::Styles::Border
 
     WIDTH  = 128
     HEIGHT = WIDTH // 2
 
-    OUTLINE_COLOR = CrystalRaylib::Colors::RED
+    @triangles : Array(Array(Vector2))?
+    @outline_vertices : Array(Array(Vector2))?
 
-    def initialize(@x : Int32, @y : Int32, @color = Color.new(red: 200, green: 31, blue: 31, alpha: 255))
+    def initialize(
+      @x : Int32,
+      @y : Int32,
+      fill_color : CrystalRaylib::Types::Color = CrystalRaylib::Types::Color.new(red: 40, green: 40, blue: 40, alpha: 255),
+    )
+      @fill_color = Core::Styles::Fill.new(color: fill_color)
+      @outline = Core::Styles::Border.new(color: CrystalRaylib::Colors::WHITE, thickness: 2.0_f32)
     end
 
     def draw(with_outline : Bool)
       triangles.each do |(v3, v2, v1)|
-        CrystalRaylib::Shapes.draw_triangle(vertex_1: v1, vertex_2: v2, vertex_3: v3, color: color)
+        CrystalRaylib::Shapes.draw_triangle(vertex_1: v1, vertex_2: v2, vertex_3: v3, color: fill_color.color)
       end
       draw_outline if with_outline
     end
@@ -31,28 +35,29 @@ module Entities
       else
         v1, v2, v3, v4 = vertices
         @triangles ||= [
-          [
-            v3, v1, v2,
-          ],
-          [
-            v3, v4, v1,
-          ],
+          [v3, v1, v2],
+          [v3, v4, v1],
         ]
       end
     end
 
     def draw_outline
-      outline.each do |(start_pos, end_pos)|
-        CrystalRaylib::Shapes.draw_line(start_pos: start_pos, end_pos: end_pos, thickness: 6_f32, color: OUTLINE_COLOR)
+      outline_vertices.each do |(start_pos, end_pos)|
+        CrystalRaylib::Shapes.draw_line(
+          start_pos: start_pos,
+          end_pos: end_pos,
+          thickness: outline.thickness,
+          color: outline.color
+        )
       end
     end
 
-    def outline : Array(Array(Vector2))
-      if outline = @outline
+    def outline_vertices : Array(Array(Vector2))
+      if outline = @outline_vertices
         outline
       else
         v1, v2, v3, v4 = vertices
-        @outline ||= [
+        @outline_vertices ||= [
           [v1, v2],
           [v2, v3],
           [v3, v4],

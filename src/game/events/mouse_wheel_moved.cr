@@ -2,8 +2,8 @@ module Events
   class MouseWheelMoved < Base
     enum ScrollDirection : Int32
       Down = -1
-      None = 0
-      Up = 1
+      None =  0
+      Up   =  1
     end
 
     getter mouse_movement : ScrollDirection

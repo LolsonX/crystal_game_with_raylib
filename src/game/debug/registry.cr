@@ -9,6 +9,11 @@ module Debug
     getter hidden_items : Set(String)
     getter hidden_categories : Set(String)
 
+    singleton_methods register, set, get, hide,
+      show, visible?, hide_category,
+      show_category, category_visible, unregister,
+      items_by_category
+
     def initialize
       @definitions = Hash(String, ItemDefinition).new
       @values = Hash(String, String).new
@@ -18,50 +23,6 @@ module Debug
 
     def self.instance : Registry
       @@instance ||= new
-    end
-
-    def self.register(key : String, label : String, category : String) : Void
-      instance.register(key, label, category)
-    end
-
-    def self.set(key : String, value : String) : Void
-      instance.set(key, value)
-    end
-
-    def self.get(key : String) : String?
-      instance.get(key)
-    end
-
-    def self.hide(key : String) : Void
-      instance.hide(key)
-    end
-
-    def self.show(key : String) : Void
-      instance.show(key)
-    end
-
-    def self.visible?(key : String) : Bool
-      instance.visible?(key)
-    end
-
-    def self.hide_category(category : String) : Void
-      instance.hide_category(category)
-    end
-
-    def self.show_category(category : String) : Void
-      instance.show_category(category)
-    end
-
-    def self.category_visible?(category : String) : Bool
-      instance.category_visible?(category)
-    end
-
-    def self.unregister(key : String) : Void
-      instance.unregister(key)
-    end
-
-    def self.items_by_category : Hash(String, Array({ItemDefinition, String?}))
-      instance.items_by_category
     end
 
     def register(key : String, label : String, category : String) : Void

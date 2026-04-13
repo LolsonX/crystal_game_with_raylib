@@ -14,6 +14,32 @@ module Layers
     def emit
       emit_mouse_position_changed
       emit_mouse_wheel_moved
+      emit_mouse_clicks
+      emit_mouse_released
+      emit_key_pressed
+    end
+
+    private def emit_mouse_clicks
+      if CrystalRaylib::Input.mouse_button_pressed?(CrystalRaylib::Input::LEFT_BUTTON)
+        pos = CrystalRaylib::Input.mouse_position
+        world_pos = CrystalRaylib::Camera2D.screen_to_world_2d(vector: pos, camera: camera)
+        publish_event(Events::MousePressed.new(
+          screen_x: pos.x.to_i,
+          screen_y: pos.y.to_i,
+          world_x: world_pos.x,
+          world_y: world_pos.y
+        ))
+      end
+    end
+
+    private def emit_mouse_released
+      if CrystalRaylib::Input.mouse_button_released?(CrystalRaylib::Input::LEFT_BUTTON)
+        pos = CrystalRaylib::Input.mouse_position
+        publish_event(Events::MouseReleased.new(
+          screen_x: pos.x.to_i,
+          screen_y: pos.y.to_i
+        ))
+      end
     end
 
     private def emit_mouse_position_changed
@@ -45,6 +71,12 @@ module Layers
 
     private def build_mouse_wheel_moved_event(mouse_movement)
       Events::MouseWheelMoved.build_from(mouse_movement)
+    end
+
+    private def emit_key_pressed
+      until (key = CrystalRaylib::Input.pressed_key).zero?
+        publish_event(Events::KeyPressed.new(key: key))
+      end
     end
   end
 end

@@ -1,0 +1,1 @@
+require "./singleton_method"

@@ -74,7 +74,7 @@ module Layers
                   else
                     CrystalRaylib::Colors::BLACK
                   end
-          @tiles[y * @width + x] = Entities::Tile.new(x: x, y: y, color: color)
+          @tiles[y * @width + x] = Entities::Tile.new(x: x, y: y, fill_color: color)
         end
       end
     end

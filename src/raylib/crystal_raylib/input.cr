@@ -1,5 +1,7 @@
 module CrystalRaylib
   module Input
+    LEFT_BUTTON = 0
+
     def self.key_down?(key_code : Int32) : Bool
       LibRaylib.key_down?(key_code)
     end
@@ -14,6 +16,22 @@ module CrystalRaylib
 
     def self.mouse_wheel_movement : Float32
       LibRaylib.mouse_wheel_movement
+    end
+
+    def self.mouse_button_pressed?(button : Int32) : Bool
+      LibRaylib.mouse_button_pressed(button)
+    end
+
+    def self.mouse_button_released?(button : Int32) : Bool
+      LibRaylib.mouse_button_released(button)
+    end
+
+    def self.mouse_button_down?(button : Int32) : Bool
+      LibRaylib.mouse_button_down(button)
+    end
+
+    def self.exit_key=(key : Int32)
+      LibRaylib.set_exit_key(key: key)
     end
   end
 end

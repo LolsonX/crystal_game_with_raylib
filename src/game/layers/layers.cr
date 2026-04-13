@@ -4,6 +4,7 @@ require "./debug"
 require "./input"
 require "./stack"
 require "./camera"
+require "./menu"
 
 module Layers
 end
