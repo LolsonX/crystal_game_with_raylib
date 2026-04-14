@@ -98,7 +98,7 @@ class Game
       dimension: Core::Geometry::Dimension.new(width: btn_width, height: btn_height),
       text: "Options"
     )
-    options_btn.on_click = -> { menu.current_view = :settings }
+    options_btn.on_click = -> { menu.switch_view(:settings) }
 
     exit_btn = UI::Button.new(
       location: Core::Geometry::Location.new(x: btn_x, y: (start_y + spacing * 2).to_f32),
@@ -172,7 +172,7 @@ class Game
       dimension: Core::Geometry::Dimension.new(width: 150.0_f32, height: 50.0_f32),
       text: "Back"
     )
-    back_btn.on_click = -> { menu.current_view = :main }
+    back_btn.on_click = -> { menu.switch_view(:main) }
 
     menu.settings_elements << camera_speed_slider
     menu.settings_elements << fullscreen_btn

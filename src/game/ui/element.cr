@@ -31,4 +31,6 @@ abstract class UI::Element
 
   abstract def draw : Nil
   abstract def update(mouse_x : Int32, mouse_y : Int32, clicked : Bool) : Nil
+
+  def reset; end
 end

@@ -9,7 +9,8 @@ module Layers
     PANEL_HEIGHT       = 350
     PANEL_FILL         = CrystalRaylib::Types::Color.new(red: 30, green: 30, blue: 30, alpha: 240)
     PANEL_BORDER       = CrystalRaylib::Types::Color.new(red: 100, green: 100, blue: 100, alpha: 255)
-    PANEL_BORDER_THICK = 2.0_f32
+    PANEL_BORDER_THICK =  2.0_f32
+    BASE_CLICK_TIMER   = 0.01_f32
 
     property? visible : Bool = false
     property elements : Array(UI::Element)
@@ -19,6 +20,7 @@ module Layers
     @panel_x : Int32
     @panel_y : Int32
     @mouse_held : Bool = false
+    @click_timer : Float32 = 0_f32
 
     def initialize(@priority : Int32 = 100, @stack : Stack? = nil)
       @elements = [] of UI::Element
@@ -58,12 +60,20 @@ module Layers
     end
 
     def update(dt : Float32)
+      if @click_timer.positive?
+        @click_timer = [@click_timer - dt, 0_f32].max
+      end
       return unless visible?
-      active_elements.each do |element|
+      (@elements + @settings_elements).each do |element|
         if element.is_a?(Traits::TimerUpdatable)
           element.update_timers(dt)
         end
       end
+    end
+
+    def switch_view(view : Symbol)
+      active_elements.each(&.reset)
+      @current_view = view
     end
 
     private def active_elements : Array(UI::Element)
@@ -98,12 +108,15 @@ module Layers
 
     private def on_mouse_pressed(event : Events::Base) : Bool
       return true unless visible? && event.is_a?(Events::MousePressed)
+      return false if @click_timer.positive?
+      @click_timer = BASE_CLICK_TIMER
       @mouse_held = true
       handle_click(event.screen_x, event.screen_y)
     end
 
     private def on_mouse_released(event : Events::Base) : Bool
       return true unless visible?
+      @click_timer = BASE_CLICK_TIMER
       @mouse_held = false
       true
     end
@@ -118,6 +131,7 @@ module Layers
       active_elements.each do |element|
         if element.contains?(mouse_x.to_f32, mouse_y.to_f32)
           element.update(mouse_x, mouse_y, clicked: true)
+          @mouse_held = false
           return false
         end
       end
