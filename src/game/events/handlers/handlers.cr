@@ -1,2 +1,5 @@
 require "./base"
 require "./key_pressed"
+require "./window_close_requested"
+require "./fullscreen_toggled"
+require "./resolution_changed"

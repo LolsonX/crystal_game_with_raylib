@@ -32,12 +32,14 @@ module Layers
       subscribe_handler(mouse_released_handler, Events::MouseReleased)
       subscribe_handler(mouse_position_handler, Events::MousePositionChanged)
       subscribe_handler(key_pressed_handler, Events::KeyPressed)
+      subscribe_handler(menu_view_switched_handler, Events::MenuViewSwitched)
     end
 
     def visible=(value : Bool)
       old_visible = @visible
       @visible = value
       return if old_visible == value
+
       if value
         @stack.try(&.block_below_priority(@priority))
       else
@@ -64,7 +66,8 @@ module Layers
         @click_timer = [@click_timer - dt, 0_f32].max
       end
       return unless visible?
-      (@elements + @settings_elements).each do |element|
+
+      all_elements.each do |element|
         if element.is_a?(Traits::TimerUpdatable)
           element.update_timers(dt)
         end
@@ -82,6 +85,10 @@ module Layers
 
     private def draw_overlay
       CrystalRaylib::Shapes.draw_rectangle(0, 0, Window::WIDTH, Window::HEIGHT, OVERLAY_COLOR)
+    end
+
+    private def all_elements
+      @elements | @settings_elements
     end
 
     private def draw_panel
@@ -167,6 +174,23 @@ module Layers
           self.visible = !@visible
         end
       end
+    end
+
+    private def menu_view_switched_handler : Events::Handlers::CallbackHandler
+      @menu_view_switched_handler ||= Events::Handlers::CallbackHandler.new(
+        handler: ->(event : Events::Base) { on_menu_view_switched(event) }
+      )
+    end
+
+    private def on_menu_view_switched(event : Events::Base) : Bool
+      return true unless event.is_a?(Events::MenuViewSwitched)
+      case event.view
+      when :hidden
+        self.visible = false
+      when :settings, :main
+        switch_view(event.view)
+      end
+      true
     end
   end
 end

@@ -1,4 +1,4 @@
-require "./geometry/geometry"
-require "./style/style"
+require "./geometry"
+require "./style"
 
 module Core; end
