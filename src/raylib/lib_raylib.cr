@@ -1,4 +1,4 @@
-@[Link(ldflags: "-L#{__DIR__}/.. -lraylib -lm")]
+@[Link(ldflags: "-L#{__DIR__}/.. -lraylib -lm -lX11")]
 lib LibRaylib
   struct Camera2D
     offset : Vector2

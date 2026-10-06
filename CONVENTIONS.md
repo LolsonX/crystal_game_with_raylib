@@ -42,16 +42,13 @@ git submodule update --init --recursive
 
 ### Updating Submodules
 ```bash
-# Update to latest in current branch
-git submodule update --remote clibs/raylib
-
 # Update to specific tag/branch
 cd clibs/raylib
 git fetch --all
-git checkout 5.5
+git checkout 6.0
 cd ../..
 git add clibs/raylib
-git commit -m "Update raylib to 5.5"
+git commit -m "Update raylib to 6.0"
 ```
 
 ### Build Commands

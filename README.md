@@ -43,11 +43,11 @@ make CFLAGS='-O3 -march=native' build
 
 ## Raylib Version
 
-Raylib is pinned to version **5.5** via git submodule.
+Raylib is pinned to version **6.0** via git submodule.
 
 To update:
 ```bash
-make setup-raylib  # Re-clones and rebuilds raylib 5.5
+make setup-raylib  # Re-clones and rebuilds raylib 6.0
 ```
 
 ## Development

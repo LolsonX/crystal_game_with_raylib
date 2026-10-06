@@ -39,8 +39,8 @@ build: src/libraylib.a
 setup-raylib:
 	@echo "Removing old raylib..."
 	rm -rf clibs/raylib
-	@echo "Cloning raylib 5.5..."
-	git clone --branch 5.5 --depth 1 https://github.com/raysan5/raylib.git clibs/raylib
+	@echo "Cloning raylib 6.0..."
+	git clone --branch 6.0 --depth 1 https://github.com/raysan5/raylib.git clibs/raylib
 	@echo "Building raylib..."
 	cd $(RAYLIB_SRC) && $(MAKE) CUSTOM_CFLAGS="$(CFLAGS)" -j$$(nproc)
 	@echo "Raylib setup complete."

@@ -16,7 +16,7 @@
 - **Entry point**: `src/game_main.cr` → `Game.new.run`
 - **Game core**: `src/game/game.cr` — assembles layer stack and runs main loop
 - **Raylib bindings**: `src/raylib/` — Crystal FFI bindings to raylib C library
-- **Raylib C source**: `clibs/raylib/` — git submodule (pinned to v5.5), built into `src/libraylib.a`
+- **Raylib C source**: `clibs/raylib/` — git submodule (pinned to v6.0), built into `src/libraylib.a`
 - **Key game modules** (all under `src/game/`):
   - `core/` — geometry, style primitives
   - `entities/` — game objects (tiles, etc.)
@@ -45,4 +45,3 @@
 - 2-space indentation, LF line endings, trim trailing whitespace (`.editorconfig`)
 - Branch naming: `feature/<name>`
 - Commit format: imperative subject line, optional body (no conventional commits prefix)
-
